@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results - index</title>
+    <link rel="stylesheet" href="FA shop.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .search-results-header {
+            background: var(--light-bg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .search-results-header h1 {
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+
+        .search-results-header .search-query {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .results-count {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .no-results i {
+            font-size: 3rem;
+            color: #ddd;
+            margin-bottom: 1rem;
+        }
+
+        .no-results h2 {
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+
+        .no-results p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .suggestion-tag {
+            background: var(--light-bg);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .suggestion-tag:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-button {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-button:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .filter-button.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .sort-select {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .search-results-header {
+                padding: 1rem;
+            }
+
+            .filter-bar {
+                flex-direction: column;
+            }
+
+            .filter-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header with logo -->
+        <header>
+            <div class="header-top">
+                <h1>FA Shop</h1>
+                <div class="header-actions">
+                    <div class="search-bar">
+                        <div class="search-container">
+                            <input type="text" placeholder="Search for products..." id="searchInput">
+                            <button onclick="performSearch()">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="cart-icon" id="cartIcon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="search-results-header">
+                <h1>Search Results for: <span class="search-query" id="searchQuery"></span></h1>
+                <div class="results-count" id="resultsCount"></div>
+                <div class="filter-bar">
+                    <button class="filter-button active" data-filter="all">All</button>
+                    <button class="filter-button" data-filter="electronics">Electronics</button>
+                    <button class="filter-button" data-filter="fashion">Fashion</button>
+                    <button class="filter-button" data-filter="home">Home & Living</button>
+                    <button class="filter-button" data-filter="books">Books</button>
+                    <button class="filter-button" data-filter="sports">Sports</button>
+                    <select class="sort-select" id="sortSelect">
+                        <option value="relevance">Sort by: Relevance</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="rating">Rating</option>
+                        <option value="discount">Discount</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="searchResults" class="products-grid"></div>
+
+            <div id="noResults" class="no-results" style="display: none;">
+                <i class="fas fa-search"></i>
+                <h2>No results found</h2>
+                <p>We couldn't find any products matching your search.</p>
+                <div class="suggestions">
+                    <span class="suggestion-tag">Electronics</span>
+                    <span class="suggestion-tag">Fashion</span>
+                    <span class="suggestion-tag">Home & Living</span>
+                    <span class="suggestion-tag">Books</span>
+                    <span class="suggestion-tag">Sports</span>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Get search query from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchQuery = urlParams.get('q');
+        
+        // Update search query display
+        document.getElementById('searchQuery').textContent = searchQuery;
+        document.getElementById('searchInput').value = searchQuery;
+
+        // Load and filter products
+        function loadSearchResults() {
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            const searchResults = document.getElementById('searchResults');
+            const noResults = document.getElementById('noResults');
+            const resultsCount = document.getElementById('resultsCount');
+
+            // Filter products based on search query
+            const filteredProducts = products.filter(product => {
+                const searchTerms = searchQuery.toLowerCase().split(' ');
+                const productText = `${product.name} ${product.category} ${product.description || ''}`.toLowerCase();
+                return searchTerms.every(term => productText.includes(term));
+            });
+
+            // Update results count
+            resultsCount.textContent = `${filteredProducts.length} results found`;
+
+            if (filteredProducts.length === 0) {
+                searchResults.style.display = 'none';
+                noResults.style.display = 'block';
+                return;
+            }
+
+            searchResults.style.display = 'grid';
+            noResults.style.display = 'none';
+
+            // Display filtered products
+            searchResults.innerHTML = filteredProducts.map(product => {
+                const reviews = JSON.parse(localStorage.getItem(`reviews_${product.id}`)) || [];
+                const avgRating = reviews.length > 0 
+                    ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length 
+                    : 0;
+                const reviewCount = reviews.length;
+
+                let priceHtml = '';
+                if (product.setOff && product.setOff > 0) {
+                    const discounted = Math.round(product.price * (1 - product.setOff / 100));
+                    priceHtml = `
+                        <div class="product-price">
+                            <span style="text-decoration:line-through;color:#888;font-size:0.95em;margin-right:8px;">₹${product.price}</span>
+                            <span style="color:#ff6b6b;font-weight:700;font-size:1.1em;">₹${discounted}</span>
+                            <span class="discount-badge">-${product.setOff}% OFF</span>
+                        </div>
+                    `;
+                } else {
+                    priceHtml = `<div class="product-price">₹${product.price}</div>`;
+                }
+
+                return `
+                    <div class="product-card" data-category="${product.category.toLowerCase()}">
+                        <div class="product-image" onclick="openProductDetails('${product.id}')">
+                            <img src="${product.image}" alt="${product.name}">
+                            <button class="wishlist-btn" data-product-id="${product.id}" onclick="toggleWishlist('${product.id}')">
+                                <i class="fas fa-heart"></i>
+                                <span class="wishlist-tooltip">Add to Wishlist</span>
+                            </button>
+                        </div>
+                        <div class="product-info">
+                            <h3>${product.name}</h3>
+                            ${priceHtml}
+                            <div class="product-rating">
+                                <div class="rating-stars">
+                                    ${Array(5).fill().map((_, i) => `
+                                        <i class="fas fa-star${i < Math.round(avgRating) ? ' active' : ''}"></i>
+                                    `).join('')}
+                                </div>
+                                <span class="review-count">(${reviewCount} review${reviewCount !== 1 ? 's' : ''})</span>
+                            </div>
+                            <button class="add-to-cart" 
+                                data-product-id="${product.id}" 
+                                data-product-name="${product.name}" 
+                                data-product-price="${product.price}">
+                                Add to Cart
+                            </button>
+                            <button class="buy-now" 
+                                onclick="buyNow('${product.id}', '${product.name}', ${product.price})">
+                                Buy Now
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Reattach event listeners
+            attachProductEventListeners();
+            updateWishlistButtons();
+        }
+
+        // Filter functionality
+        document.querySelectorAll('.filter-button').forEach(button => {
+            button.addEventListener('click', function() {
+                // Update active state
+                document.querySelectorAll('.filter-button').forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+
+                const filter = this.dataset.filter;
+                const products = document.querySelectorAll('.product-card');
+
+                products.forEach(product => {
+                    if (filter === 'all' || product.dataset.category === filter) {
+                        product.style.display = 'block';
+                    } else {
+                        product.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Sort functionality
+        document.getElementById('sortSelect').addEventListener('change', function() {
+            const sortBy = this.value;
+            const products = Array.from(document.querySelectorAll('.product-card'));
+            const productsGrid = document.getElementById('searchResults');
+
+            products.sort((a, b) => {
+                const priceA = parseFloat(a.querySelector('.product-price').textContent.replace('₹', ''));
+                const priceB = parseFloat(b.querySelector('.product-price').textContent.replace('₹', ''));
+                const ratingA = a.querySelectorAll('.rating-stars .active').length;
+                const ratingB = b.querySelectorAll('.rating-stars .active').length;
+                const discountA = parseInt(a.querySelector('.discount-badge')?.textContent.replace('-', '').replace('% OFF', '') || '0');
+                const discountB = parseInt(b.querySelector('.discount-badge')?.textContent.replace('-', '').replace('% OFF', '') || '0');
+
+                switch(sortBy) {
+                    case 'price-low':
+                        return priceA - priceB;
+                    case 'price-high':
+                        return priceB - priceA;
+                    case 'rating':
+                        return ratingB - ratingA;
+                    case 'discount':
+                        return discountB - discountA;
+                    default:
+                        return 0;
+                }
+            });
+
+            productsGrid.innerHTML = '';
+            products.forEach(product => productsGrid.appendChild(product));
+        });
+
+        // Search functionality
+        function performSearch() {
+            const searchQuery = document.getElementById('searchInput').value.trim();
+            if (searchQuery) {
+                window.location.href = `search-results.html?q=${encodeURIComponent(searchQuery)}`;
+            }
+        }
+
+        // Add event listener for Enter key
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+
+        // Load search results when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSearchResults();
+            loadUserCart();
+            updateCartCount();
+        });
+
+        // Reuse existing functions from main page
+        function loadUserCart() {
+            const userName = localStorage.getItem('userName');
+            if (userName) {
+                const userCart = JSON.parse(localStorage.getItem(`cart_${userName}`)) || [];
+                cart = userCart;
+            } else {
+                cart = [];
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+        }
+
+        function updateCartCount() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartCount').textContent = totalItems;
+        }
+
+        function openProductDetails(productId) {
+            window.location.href = `product-details.html?id=${productId}`;
+        }
+
+        function toggleWishlist(productId) {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            if (!isLoggedIn) {
+                alert('Please login to add items to your wishlist');
+                window.location.href = 'loading.html';
+                return;
+            }
+
+            const userName = localStorage.getItem('userName');
+            let wishlist = JSON.parse(localStorage.getItem(`wishlist_${userName}`)) || [];
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            const product = products.find(p => p.id === productId);
+            
+            if (!product) return;
+
+            const isInWishlist = wishlist.some(item => item.id === productId);
+            const wishlistBtn = document.querySelector(`.wishlist-btn[data-product-id="${productId}"]`);
+            
+            if (isInWishlist) {
+                wishlist = wishlist.filter(item => item.id !== productId);
+                wishlistBtn.classList.remove('active');
+            } else {
+                wishlist.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image,
+                    setOff: product.setOff
+                });
+                wishlistBtn.classList.add('active');
+            }
+            
+            localStorage.setItem(`wishlist_${userName}`, JSON.stringify(wishlist));
+            updateWishlistButtons();
+        }
+
+        function updateWishlistButtons() {
+            const userName = localStorage.getItem('userName');
+            if (!userName) return;
+            
+            const wishlist = JSON.parse(localStorage.getItem(`wishlist_${userName}`)) || [];
+            
+            document.querySelectorAll('.wishlist-btn').forEach(btn => {
+                const productId = btn.dataset.productId;
+                const isInWishlist = wishlist.some(item => item.id === productId);
+                btn.classList.toggle('active', isInWishlist);
+            });
+        }
+
+        function attachProductEventListeners() {
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = this.dataset.productId;
+                    const productName = this.dataset.productName;
+                    const productPrice = parseFloat(this.dataset.productPrice);
+                    addToCart(productId, productName, productPrice);
+                });
+            });
+        }
+
+        function addToCart(productId, productName, productPrice) {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            if (!isLoggedIn) {
+                alert('Please login to add items to your cart');
+                window.location.href = 'loading.html';
+                return;
+            }
+
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: productId,
+                    name: productName,
+                    price: productPrice,
+                    quantity: 1
+                });
+            }
+            
+            updateCartCount();
+            
+            const addToCartBtn = document.querySelector(`.add-to-cart[data-product-id="${productId}"]`);
+            if (addToCartBtn) {
+                addToCartBtn.textContent = 'Added to Cart!';
+                addToCartBtn.classList.add('added');
+                setTimeout(() => {
+                    addToCartBtn.textContent = 'Add to Cart';
+                    addToCartBtn.classList.remove('added');
+                }, 2000);
+            }
+        }
+
+        function buyNow(productId, productName, productPrice) {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            if (!isLoggedIn) {
+                alert('Please login to proceed with purchase');
+                window.location.href = 'loading.html';
+                return;
+            }
+
+            const orderDetails = {
+                productId,
+                productName,
+                price: productPrice,
+                quantity: 1,
+                timestamp: new Date().toISOString()
+            };
+            localStorage.setItem('currentOrder', JSON.stringify(orderDetails));
+            
+            window.location.href = 'payment.html';
+        }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order History - FA Shop</title>
+    <link rel="stylesheet" href="FA shop.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .order-history-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .order-history-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--text-color);
+        }
+
+        .order-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .order-header {
+            background: var(--light-bg);
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .order-id {
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        .order-date {
+            color: #666;
+        }
+
+        .order-status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background: var(--warning-color);
+            color: white;
+        }
+
+        .status-processing {
+            background: #3498db;
+            color: white;
+        }
+
+        .status-shipped {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .status-delivered {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .status-cancelled {
+            background: var(--error-color);
+            color: white;
+        }
+
+        .order-items {
+            padding: 1rem;
+        }
+
+        .order-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 1rem;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-name {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .item-price {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .item-quantity {
+            color: #666;
+        }
+
+        .order-summary {
+            background: var(--light-bg);
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .total-amount {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        .tracking-info {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .tracking-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            position: relative;
+        }
+
+        .tracking-steps::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #eee;
+            z-index: 1;
+        }
+
+        .tracking-step {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            flex: 1;
+        }
+
+        .step-icon {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border: 2px solid #eee;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .step-icon.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+        .step-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .step-label.active {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .tracking-details {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--light-bg);
+            border-radius: 10px;
+        }
+
+        .tracking-detail {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .tracking-detail:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-label {
+            color: #666;
+        }
+
+        .detail-value {
+            font-weight: 500;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .action-button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .track-button {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .cancel-button {
+            background: var(--error-color);
+            color: white;
+        }
+
+        .return-button {
+            background: var(--warning-color);
+            color: white;
+        }
+
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        @media (max-width: 768px) {
+            .order-header {
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: center;
+            }
+
+            .order-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .item-image {
+                margin: 0 auto 1rem;
+            }
+
+            .tracking-steps {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .tracking-steps::before {
+                display: none;
+            }
+
+            .tracking-step {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .step-icon {
+                margin: 0;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header with logo -->
+        <header>
+            <div class="header-top">
+                <h1>FA Shop</h1>
+                <div class="header-actions">
+                    <div class="search-bar">
+                        <div class="search-container">
+                            <input type="text" placeholder="Search for products..." id="searchInput">
+                            <button onclick="performSearch()">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="cart-icon" id="cartIcon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main navigation -->
+        <nav class="main-nav">
+            <ul>
+                <li><a href="Index.html">Home</a></li>
+                <li><a href="special-deals.html">Special Deals</a></li>
+                <li><a href="new-arrivals.html">New Arrivals</a></li>
+                <li id="chorBazarNav" style="display: none;"><a href="chor-bazar.html">Chor Bazar</a></li>
+                <li><a href="order-history.html" class="active">Order History</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+
+        <div class="order-history-container">
+            <h2 class="order-history-title">Your Order History</h2>
+            
+            <!-- Sample Order Card -->
+            <div class="order-card">
+                <div class="order-header">
+                    <div>
+                        <span class="order-id">Order #12345</span>
+                        <span class="order-date">Placed on: 2024-03-15</span>
+                    </div>
+                    <span class="order-status status-shipped">Shipped</span>
+                </div>
+                
+                <div class="order-items">
+                    <div class="order-item">
+                        <img src="https://via.placeholder.com/80" alt="Product" class="item-image">
+                        <div class="item-details">
+                            <div class="item-name">Premium Wireless Headphones</div>
+                            <div class="item-price">₹2,999</div>
+                            <div class="item-quantity">Quantity: 1</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="order-summary">
+                    <div class="total-amount">Total: ₹2,999</div>
+                    <div class="action-buttons">
+                        <button class="action-button track-button">Track Order</button>
+                        <button class="action-button return-button">Return</button>
+                    </div>
+                </div>
+
+                <div class="tracking-info">
+                    <h3>Order Tracking</h3>
+                    <div class="tracking-steps">
+                        <div class="tracking-step">
+                            <div class="step-icon active">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div class="step-label active">Order Placed</div>
+                        </div>
+                        <div class="tracking-step">
+                            <div class="step-icon active">
+                                <i class="fas fa-box"></i>
+                            </div>
+                            <div class="step-label active">Processing</div>
+                        </div>
+                        <div class="tracking-step">
+                            <div class="step-icon active">
+                                <i class="fas fa-shipping-fast"></i>
+                            </div>
+                            <div class="step-label active">Shipped</div>
+                        </div>
+                        <div class="tracking-step">
+                            <div class="step-icon">
+                                <i class="fas fa-home"></i>
+                            </div>
+                            <div class="step-label">Delivered</div>
+                        </div>
+                    </div>
+                    
+                    <div class="tracking-details">
+                        <div class="tracking-detail">
+                            <span class="detail-label">Tracking Number:</span>
+                            <span class="detail-value">TRK123456789</span>
+                        </div>
+                        <div class="tracking-detail">
+                            <span class="detail-label">Carrier:</span>
+                            <span class="detail-value">FA Express</span>
+                        </div>
+                        <div class="tracking-detail">
+                            <span class="detail-label">Estimated Delivery:</span>
+                            <span class="detail-value">March 20, 2024</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Another Sample Order Card -->
+            <div class="order-card">
+                <div class="order-header">
+                    <div>
+                        <span class="order-id">Order #12344</span>
+                        <span class="order-date">Placed on: 2024-03-10</span>
+                    </div>
+                    <span class="order-status status-delivered">Delivered</span>
+                </div>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Customer Service</h4>
+                    <ul>
+                        <li><a href="#contact">Contact Us</a></li>
+                        <li><a href="#shipping">Shipping Info</a></li>
+                        <li><a href="#returns">Returns</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>About Us</h4>
+                    <ul>
+                        <li><a href="#about">Our Story</a></li>
+                        <li><a href="#careers">Careers</a></li>
+                        <li><a href="#privacy">Privacy Policy</a></li>
+                        <li><a href="#terms">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 FA Shop. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Load user's orders from localStorage
+        function loadOrders() {
+            const userName = localStorage.getItem('userName');
+            if (!userName) {
+                window.location.href = 'loading.html';
+                return;
+            }
+
+            const orders = JSON.parse(localStorage.getItem(`orders_${userName}`)) || [];
+            // Implementation for loading orders will go here
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadOrders();
+        });
+    </script>
+</body>
+</html> 

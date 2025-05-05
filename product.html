@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - FA Shop</title>
+    <link rel="stylesheet" href="FA shop.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>FA Shop</h1>
+        </header>
+        <main style="max-width:600px;margin:40px auto;background:#fff;padding:32px 24px;border-radius:10px;box-shadow:0 4px 24px rgba(0,0,0,0.10);">
+            <div id="productDetails">
+                <!-- Product details will be loaded here -->
+            </div>
+            <div style="margin-top:24px;">
+                <a href="Index.html" style="color:#007bff;text-decoration:underline;">&larr; Back to Shop</a>
+            </div>
+        </main>
+    </div>
+    <script>
+        // Get product ID from URL
+        function getProductIdFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('id');
+        }
+        // Load product details
+        function loadProductDetails() {
+            const productId = getProductIdFromUrl();
+            const products = JSON.parse(localStorage.getItem('products') || '[]');
+            const product = products.find(p => p.id === productId);
+            const detailsDiv = document.getElementById('productDetails');
+            if (!product) {
+                detailsDiv.innerHTML = '<p>Product not found.</p>';
+                return;
+            }
+            let priceHtml = '';
+            if (product.setOff && product.setOff > 0) {
+                const discounted = Math.round(product.price * (1 - product.setOff / 100));
+                priceHtml = `<span style='text-decoration:line-through;color:#888;font-size:1em;margin-right:10px;'>₹${product.price}</span><span style='color:#ff6b6b;font-weight:700;font-size:1.3em;'>₹${discounted}</span> <span style='background:#ff6b6b;color:#fff;padding:3px 10px;border-radius:7px;font-size:1em;margin-left:10px;'>-${product.setOff}% OFF</span>`;
+            } else {
+                priceHtml = `₹${product.price}`;
+            }
+            detailsDiv.innerHTML = `
+                <img src="${product.image}" alt="${product.name}" style="width:100%;max-width:350px;height:220px;object-fit:cover;border-radius:8px;background:#f3f3f3;margin-bottom:16px;">
+                <h2 style="margin-bottom:8px;">${product.name}</h2>
+                <div style="margin-bottom:10px;">${priceHtml}</div>
+                <div style="color:#444;font-size:1.1em;line-height:1.5;margin-bottom:18px;">${product.description || 'No description available.'}</div>
+                <button id="addToCartBtn" style="padding:10px 24px;background:#007bff;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:1em;">Add to Cart</button>
+            `;
+            document.getElementById('addToCartBtn').addEventListener('click', function() {
+                let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                const existingItem = cart.find(item => item.id === product.id);
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    cart.push({
+                        id: product.id,
+                        name: product.name,
+                        price: product.price,
+                        image: product.image,
+                        quantity: 1
+                    });
+                }
+                // Save cart globally
+                localStorage.setItem('cart', JSON.stringify(cart));
+                // If user is logged in, save cart for user
+                const userName = localStorage.getItem('userName');
+                if (userName) {
+                    localStorage.setItem(`cart_${userName}`, JSON.stringify(cart));
+                }
+                // Update cart count in header if present
+                const cartCount = document.getElementById('cartCount');
+                if (cartCount) {
+                    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                    cartCount.textContent = totalItems;
+                }
+                this.textContent = 'Added!';
+                this.style.background = '#28a745';
+                setTimeout(() => {
+                    this.textContent = 'Add to Cart';
+                    this.style.background = '#007bff';
+                }, 1500);
+            });
+        }
+        loadProductDetails();
+    </script>
+</body>
+</html> 

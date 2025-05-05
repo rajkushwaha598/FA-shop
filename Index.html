@@ -1,0 +1,1802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FA Shop - Your Online Store</title>
+    <link rel="stylesheet" href="FA shop.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Profile Icon -->
+        <a href="profile.html" class="profile-icon" id="profileIcon">
+            <i class="fas fa-user"></i>
+        </a>
+
+        <!-- Header with logo -->
+        <header>
+            <div class="header-top">
+                <h1>FA Shop</h1>
+                <div class="header-actions">
+                    <div class="language-selector">
+                        <button id="languageBtn" aria-haspopup="true" aria-expanded="false">
+                            <img id="currentFlag" src="https://flagcdn.com/w20/us.png" alt="Current language">
+                            <span id="currentLanguage">English</span>
+                        </button>
+                        <div class="language-dropdown" role="menu" aria-labelledby="languageBtn">
+                            <div class="language-option" role="menuitem" tabindex="0" data-lang="en" data-flag="us">
+                                <img src="https://flagcdn.com/w20/us.png" alt="English">
+                                <span>English</span>
+                            </div>
+                            <div class="language-option" role="menuitem" tabindex="0" data-lang="hi" data-flag="in">
+                                <img src="https://flagcdn.com/w20/in.png" alt="Hindi">
+                                <span>हिंदी</span>
+                            </div>
+                            <div class="language-option" role="menuitem" tabindex="0" data-lang="es" data-flag="es">
+                                <img src="https://flagcdn.com/w20/es.png" alt="Spanish">
+                                <span>Español</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="search-bar">
+                        <div class="search-container">
+                            <input type="text" id="searchInput" placeholder="Search for products..." aria-label="Search products">
+                            <button id="searchBtn" aria-label="Search"><i class="fas fa-search"></i></button>
+                        </div>
+                        <div class="search-suggestions" id="searchSuggestions" role="listbox" aria-label="Search suggestions"></div>
+                    </div>
+                    <div class="cart-icon" id="cartIcon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </div>
+                    <a href="seller.html" class="seller-btn" style="margin-left:10px; padding:8px 16px; background:#4a90e2; color:#fff; border-radius:4px; text-decoration:none; font-weight:500; transition:background 0.3s;" target="_blank">Seller Panel</a>
+                    <a href="track-order.html" class="track-order-btn" id="trackOrderBtn">
+                        <i class="fas fa-truck"></i>
+                        <span>Track Order</span>
+                    </a>
+                    <div class="user-account">
+                        <div class="login-container">
+                            <div class="login-signup-btns" id="loginSignupBtns">
+                                <button class="login-btn" id="loginBtn">
+                                    <i class="fas fa-user"></i> Login
+                                </button>
+                            </div>
+                            <div class="user-info" id="userInfo" style="display: none;">
+                                <span class="user-name"><span id="displayName"></span></span>
+                                <button class="logout-btn" id="logoutBtn">Logout</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="loyalty-points" id="loyaltyPointsDisplay" style="margin-left:10px; color:#FFD700; font-weight:bold;">
+                        Points: 0
+                    </div>
+                </div>
+            </div>
+             <!-- Main navigation -->
+             <nav class="main-nav">
+                <div class="nav-container">
+                  <div class="brand"><a href="index.html">MyShop</a></div>
+                  <div class="menu-toggle" id="mobile-menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                  </div>
+                  <ul class="nav-links">
+                    <li><a href="index.html" tabindex="0">Home</a></li>
+                    <li><a href="special-deals.html" tabindex="0">Special Deals</a></li>
+                    <li><a href="new-arrivals.html" tabindex="0">New Arrivals</a></li>
+                    <li><a href="contact.html" tabindex="0">Contact</a></li>
+                  </ul>
+                </div>
+              </nav>
+              
+        </header>
+
+        <!-- Announcement Banner -->
+        <div id="fridayAnnouncement" class="announcement-banner" style="display: none;">
+            <div class="announcement-content">
+                <i class="fas fa-bell"></i>
+                <span>Tomorrow is Chor Bazar Special Day! Get ready for amazing deals!</span>
+            </div>
+        </div>
+
+        <!-- Flash Sales Countdown -->
+        <div class="flash-sales-container">
+            <div class="flash-sales-content">
+                <div class="flash-sales-header">
+                    <h2>Flash Sales</h2>
+                    <span class="flash-sales-badge">Limited Time</span>
+                </div>
+                <div class="countdown-timer">
+                    <div class="timer-item">
+                        <span id="days">00</span>
+                        <span class="timer-label">Days</span>
+                    </div>
+                    <div class="timer-item">
+                        <span id="hours">00</span>
+                        <span class="timer-label">Hours</span>
+                    </div>
+                    <div class="timer-item">
+                        <span id="minutes">00</span>
+                        <span class="timer-label">Minutes</span>
+                    </div>
+                    <div class="timer-item">
+                        <span id="seconds">00</span>
+                        <span class="timer-label">Seconds</span>
+                    </div>
+                </div>
+                <div class="flash-sales-products">
+                    <div class="flash-product">
+                        <img src="C:\Users\shivj\OneDrive\Desktop\index\image Earb.png" alt="Flash Sale Product">
+                        <div class="flash-product-info">
+                            <h3>Special Offer</h3>
+                            <div class="flash-price">
+                                <span class="original-price">₹999</span>
+                                <span class="discounted-price">₹499</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flash-product">
+                        <img src="C:\Users\shivj\OneDrive\Desktop\index\image laptop.png" alt="Flash Sale Product">
+                        <div class="flash-product-info">
+                            <h3>Limited Time Deal</h3>
+                            <div class="flash-price">
+                                <span class="original-price">73874</span>
+                                <span class="discounted-price">₹6999</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="flash-sales-btn">Shop Now</button>
+            </div>
+        </div>
+        <div class="animated-bg">
+            <div class="content">
+             hi
+              <h1>Welcome to My Shop</h1>
+              <p>Best deals on all products!</p>
+            </div>
+          </div>
+          
+
+        <!-- Main content area -->
+        <div class="content-wrapper">
+            <!-- Sidebar -->
+            <div class="filter-sidebar">
+                <h2 class="filter-title">Filters</h2>
+              
+                <div class="filter-group">
+                  <button class="filter-toggle" onclick="toggleSection(this)">
+                    Categories <span class="arrow">▼</span>
+                  </button>
+                  <div class="filter-content">
+                    <label><input type="checkbox"> Electronics</label>
+                    <label><input type="checkbox"> Fashion</label>
+                    <label><input type="checkbox"> Home & Living</label>
+                    <label><input type="checkbox"> Books</label>
+                    <label><input type="checkbox"> Sports</label>
+                  </div>
+                </div>
+              
+                <div class="filter-group">
+                  <button class="filter-toggle" onclick="toggleSection(this)">
+                    Price Range <span class="arrow">▼</span>
+                  </button>
+                  <div class="filter-content">
+                    <input type="number" placeholder="Min" class="price-input">
+                    <input type="number" placeholder="Max" class="price-input">
+                  </div>
+                </div>
+              
+                <div class="filter-group">
+                  <button class="filter-toggle" onclick="toggleSection(this)">
+                    Ratings <span class="arrow">▼</span>
+                  </button>
+                  <div class="filter-content">
+                    <label><input type="checkbox"> ★★★★☆ & above</label>
+                    <label><input type="checkbox"> ★★★☆☆ & above</label>
+                    <label><input type="checkbox"> ★★☆☆☆ & above</label>
+                    <label><input type="checkbox"> ★☆☆☆☆ & above</label>
+                  </div>
+                </div>
+              
+                <div class="filter-group">
+                  <button class="filter-toggle" onclick="toggleSection(this)">
+                    Discount <span class="arrow">▼</span>
+                  </button>
+                  <div class="filter-content">
+                    <label><input type="checkbox"> 50% or more</label>
+                    <label><input type="checkbox"> 40% or more</label>
+                    <label><input type="checkbox"> 30% or more</label>
+                  </div>
+                </div>
+              
+                <div class="filter-actions">
+                  <button class="apply-btn">Apply Filters</button>
+                  <button class="clear-btn">Clear All</button>
+                </div>
+              </div>
+              
+
+            <!-- Main content -->
+            <main class="main-content">
+                <div class="products-grid" id="productsGrid">
+                    <!-- Products will be loaded here dynamically -->
+                </div>
+                <!-- Quick View Modal -->
+                <div id="quickViewModal" class="quick-view-modal">
+                    <div class="quick-view-content">
+                        <button class="close-quick-view" id="closeQuickView">&times;</button>
+                        <img id="quickViewImage" class="quick-view-image" src="" alt="Product Image">
+                        <h3 id="quickViewName" class="quick-view-name"></h3>
+                        <div id="quickViewPrice" class="quick-view-price"></div>
+                        <div id="quickViewRating" class="quick-view-rating">
+                            <span class="rating-stars"></span>
+                            <span class="rating-count"></span>
+                        </div>
+                        <div id="quickViewStock" class="quick-view-stock"></div>
+                        <div id="quickViewDescription" class="quick-view-description"></div>
+                        <div class="quick-view-actions">
+                            <button class="quick-view-button add-to-cart-btn" id="quickViewAddToCart">Add to Cart</button>
+                            <button class="quick-view-button view-details-btn" id="quickViewDetails">View Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bottom-banner">
+                    <div class="bottom-banner-title">
+                        <i class="fas fa-bolt"></i>
+                        Special Offers: Up to 70% Off on Select Products!
+                    </div>
+                    <div class="bottom-banner-products" id="bottomBannerProducts"></div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Referral Program Section -->
+        <section class="referral-program">
+            <div class="referral-content">
+                <h2>Refer & Earn</h2>
+                <div class="referral-info">
+                    <div class="referral-benefits">
+                        <div class="benefit-card">
+                            <i class="fas fa-gift"></i>
+                            <h3>Earn ₹100</h3>
+                            <p>For each successful referral</p>
+                        </div>
+                        <div class="benefit-card">
+                            <i class="fas fa-users"></i>
+                            <h3>Unlimited Referrals</h3>
+                            <p>No limit on earnings</p>
+                        </div>
+                        <div class="benefit-card">
+                            <i class="fas fa-wallet"></i>
+                            <h3>Instant Credit</h3>
+                            <p>Get credited to your wallet</p>
+                        </div>
+                        <div class="benefit-card">
+                            <i class="fas fa-percentage"></i>
+                            <h3>Extra 10% Off</h3>
+                            <p>For your referred friends</p>
+                        </div>
+                    </div>
+                    <div class="referral-code-section">
+                        <div class="referral-code-box">
+                            <h3>Your Referral Code</h3>
+                            <div class="code-display">
+                                <span id="referralCode">Loading...</span>
+                                <button id="copyCode" class="copy-btn">
+                                    <i class="fas fa-copy"></i>
+                                    Copy
+                                </button>
+                            </div>
+                            <div class="referral-stats">
+                                <div class="stat-item">
+                                    <span class="stat-value" id="totalReferrals">0</span>
+                                    <span class="stat-label">Total Referrals</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-value" id="totalEarnings">₹0</span>
+                                    <span class="stat-label">Total Earnings</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="share-options">
+                            <h3>Share Your Code</h3>
+                            <div class="share-buttons">
+                                <button class="share-btn whatsapp">
+                                    <i class="fab fa-whatsapp"></i>
+                                    WhatsApp
+                                </button>
+                                <button class="share-btn telegram">
+                                    <i class="fab fa-telegram"></i>
+                                    Telegram
+                                </button>
+                                <button class="share-btn email">
+                                    <i class="fas fa-envelope"></i>
+                                    Email
+                                </button>
+                            </div>
+                        </div>
+                        <div class="referral-history">
+                            <h3>Recent Referrals</h3>
+                            <div class="referral-list" id="referralList">
+                                <!-- Referral history will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+            <div class="bottom-banner-products" id="bottomBannerProducts"></div>
+        </div>
+    </div>
+    <script>
+        // Initialize cart array
+        let cart = [];
+
+        // Check login status and update UI
+        function checkLoginStatus() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            const userName = localStorage.getItem('userName');
+            const loginSignupBtns = document.getElementById('loginSignupBtns');
+            const userInfo = document.getElementById('userInfo');
+            const displayName = document.getElementById('displayName');
+
+            if (loginSignupBtns && userInfo && displayName) {
+                if (isLoggedIn) {
+                    loginSignupBtns.style.display = 'none';
+                    userInfo.style.display = 'flex';
+                    displayName.textContent = userName || 'User';
+                } else {
+                    loginSignupBtns.style.display = 'flex';
+                    userInfo.style.display = 'none';
+                    // Clear cart when logged out
+                    localStorage.removeItem('cart');
+                    cart = [];
+                    updateCartCount();
+                }
+            }
+        }
+
+        // Function to check if today is weekend (Saturday or Sunday)
+        function isWeekend() {
+            const today = new Date();
+            const day = today.getDay(); // 0 is Sunday, 6 is Saturday
+            return day === 0 || day === 6;
+        }
+
+        // Function to update Chor Bazar visibility
+        function updateChorBazarVisibility() {
+            const chorBazarNav = document.getElementById('chorBazarNav');
+            if (chorBazarNav) {
+                chorBazarNav.style.display = isWeekend() ? 'list-item' : 'none';
+            }
+        }
+
+        // Function to check if today is Friday
+        function isFriday() {
+            const today = new Date();
+            return today.getDay() === 5; // 5 is Friday
+        }
+
+        // Function to update announcement visibility
+        function updateAnnouncementVisibility() {
+            const announcement = document.getElementById('fridayAnnouncement');
+            if (announcement) {
+                announcement.style.display = isFriday() ? 'block' : 'none';
+            }
+        }
+
+        // Initialize cart count display
+        const cartCount = document.getElementById('cartCount');
+        const cartIcon = document.getElementById('cartIcon');
+
+        // Update cart count display
+        function updateCartCount() {
+            if (cartCount) {
+                const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 0), 0);
+                cartCount.textContent = totalItems;
+                const userName = localStorage.getItem('userName');
+                if (userName) {
+                    localStorage.setItem(`cart_${userName}`, JSON.stringify(cart));
+                }
+                localStorage.setItem('cart', JSON.stringify(cart));
+            }
+        }
+
+        // On page load, load cart for logged-in user
+        function loadUserCart() {
+            const userName = localStorage.getItem('userName');
+            if (userName) {
+                try {
+                    const userCart = JSON.parse(localStorage.getItem(`cart_${userName}`)) || [];
+                    cart = userCart;
+                } catch (error) {
+                    console.error('Error loading cart:', error);
+                    cart = [];
+                }
+            } else {
+                cart = [];
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+        }
+
+        // Add to cart functionality
+        function addToCart(productId, productName, productPrice) {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            if (!isLoggedIn) {
+                alert('Please login to add items to your cart');
+                window.location.href = 'loading.html';
+                return;
+            }
+
+            // Check if product already in cart
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity = (existingItem.quantity || 0) + 1;
+            } else {
+                cart.push({
+                    id: productId,
+                    name: productName,
+                    price: productPrice,
+                    quantity: 1
+                });
+            }
+            
+            updateCartCount();
+            
+            // Show added to cart animation
+            const addToCartBtn = document.querySelector(`.add-to-cart[data-product-id="${productId}"]`);
+            if (addToCartBtn) {
+                addToCartBtn.textContent = 'Added to Cart!';
+                addToCartBtn.classList.add('added');
+                setTimeout(() => {
+                    addToCartBtn.textContent = 'Add to Cart';
+                    addToCartBtn.classList.remove('added');
+                }, 2000);
+            }
+        }
+
+        // Attach event listeners to product cards
+        function attachProductEventListeners() {
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = this.dataset.productId;
+                    const productName = this.dataset.productName;
+                    const productPrice = parseFloat(this.dataset.productPrice);
+                    if (productId && productName && !isNaN(productPrice)) {
+                        addToCart(productId, productName, productPrice);
+                    }
+                });
+            });
+        }
+
+
+
+        function toggleSection(btn) {
+  const content = btn.nextElementSibling;
+  const arrow = btn.querySelector('.arrow');
+
+  const isOpen = content.style.display === 'block';
+
+  document.querySelectorAll('.filter-content').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('.filter-toggle').forEach(b => b.classList.remove('active'));
+
+  if (!isOpen) {
+    content.style.display = 'block';
+    btn.classList.add('active');
+  }
+}
+
+        // Update the loadProducts function
+        function loadProducts() {
+            const productsGrid = document.getElementById('productsGrid');
+            if (!productsGrid) return;
+
+            let products = [];
+            try {
+                products = JSON.parse(localStorage.getItem('products')) || [];
+            } catch (error) {
+                console.error('Error loading products:', error);
+                products = [];
+            }
+            
+            if (products.length === 0) {
+                productsGrid.innerHTML = '<p style="text-align:center;">No products available. Sellers can add products!</p>';
+                return;
+            }
+
+            // Check if flash sale is active
+            let isFlashSaleActive = false;
+            try {
+                const endDate = new Date(localStorage.getItem('flashSaleEndDate'));
+                const now = new Date();
+                isFlashSaleActive = endDate && endDate > now;
+            } catch (error) {
+                console.error('Error checking flash sale status:', error);
+            }
+
+            // Filter products based on flash sale status
+            const filteredProducts = products.filter(product => {
+                const isFlashSaleProduct = product.setOff && product.setOff >= 75;
+                return isFlashSaleActive ? !isFlashSaleProduct : isFlashSaleProduct;
+            });
+
+            if (filteredProducts.length === 0) {
+                productsGrid.innerHTML = `
+                    <div style="text-align:center; padding: 2rem;">
+                        <h3 style="color: #666; margin-bottom: 1rem;">
+                            ${isFlashSaleActive ? 
+                                'Flash sale is currently active! Regular products are available.' : 
+                                'Flash sale has ended! Special deals are now available.'}
+                        </h3>
+                        <p style="color: #888;">
+                            ${isFlashSaleActive ? 
+                                'Check back after the flash sale ends for special deals.' : 
+                                'Take advantage of our amazing discounts!'}
+                        </p>
+                    </div>
+                `;
+                return;
+            }
+
+            productsGrid.innerHTML = filteredProducts.map(product => {
+                // Get reviews for this product
+                let reviews = [];
+                try {
+                    reviews = JSON.parse(localStorage.getItem(`reviews_${product.id}`)) || [];
+                } catch (error) {
+                    console.error(`Error loading reviews for product ${product.id}:`, error);
+                }
+
+                const avgRating = reviews.length > 0 
+                    ? reviews.reduce((sum, review) => sum + (review.rating || 0), 0) / reviews.length 
+                    : 0;
+                const reviewCount = reviews.length;
+
+                // Check if product is part of flash sale (75% or more off)
+                const isFlashSale = product.setOff && product.setOff >= 75;
+                const flashSaleClass = isFlashSale ? 'flash-sale' : '';
+                const flashSaleBadge = isFlashSale ? '<div class="flash-sale-badge">75%+ OFF</div>' : '';
+
+                let priceHtml = '';
+                if (product.setOff && product.setOff > 0) {
+                    const discounted = Math.round(product.price * (1 - product.setOff / 100));
+                    priceHtml = `
+                        <div class="product-price">
+                            <span style="text-decoration:line-through;color:#888;font-size:0.95em;margin-right:8px;">₹${product.price}</span>
+                            <span style="color:#ff6b6b;font-weight:700;font-size:1.1em;">₹${discounted}</span>
+                            <span class="discount-badge">-${product.setOff}% OFF</span>
+                        </div>
+                    `;
+                } else {
+                    priceHtml = `<div class="product-price">₹${product.price}</div>`;
+                }
+
+                return `
+                    <div class="product-card ${flashSaleClass}">
+                        ${flashSaleBadge}
+                        <div class="product-image" onclick="openProductDetails('${product.id}')">
+                            <img src="${product.image}" alt="${product.name}">
+                            <button class="wishlist-btn" data-product-id="${product.id}" onclick="toggleWishlist('${product.id}')">
+                                <i class="fas fa-heart"></i>
+                                <span class="wishlist-tooltip">Add to Wishlist</span>
+                            </button>
+                        </div>
+                        <div class="product-info">
+                            <h3>${product.name}</h3>
+                            ${priceHtml}
+                            <div class="product-rating">
+                                <div class="rating-stars">
+                                    ${Array(5).fill().map((_, i) => `
+                                        <i class="fas fa-star${i < Math.round(avgRating) ? ' active' : ''}"></i>
+                                    `).join('')}
+                                </div>
+                                <span class="review-count">(${reviewCount} review${reviewCount !== 1 ? 's' : ''})</span>
+                            </div>
+                            <button class="add-to-cart" 
+                                data-product-id="${product.id}" 
+                                data-product-name="${product.name}" 
+                                data-product-price="${product.price}">
+                                Add to Cart
+                            </button>
+                            <button class="buy-now" 
+                                onclick="buyNow('${product.id}', '${product.name}', ${product.price})">
+                                Buy Now
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            updateWishlistButtons();
+            attachProductEventListeners();
+        }
+
+        // Initialize cart and products when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const userName = localStorage.getItem('userName');
+            if (userName) {
+                const userCart = JSON.parse(localStorage.getItem(`cart_${userName}`)) || [];
+                localStorage.setItem('cart', JSON.stringify(userCart));
+            }
+            updateCartCount();
+            loadProducts();
+            
+            // Add cart icon click handler
+            const cartIcon = document.getElementById('cartIcon');
+            cartIcon.addEventListener('click', function() {
+                const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+                if (!isLoggedIn) {
+                    alert('Please login to view your cart');
+                    window.location.href = 'loading.html';
+                    return;
+                }
+                window.location.href = 'cart.html';
+            });
+        });
+
+        // Handle logout
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            const userName = localStorage.getItem('userName');
+            if (userName) {
+                localStorage.setItem(`cart_${userName}`, JSON.stringify(cart));
+            }
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('userName');
+            localStorage.removeItem('cart');
+            cart = [];
+            updateCartCount();
+            // Also log out seller
+            localStorage.removeItem('isSellerLoggedIn');
+            localStorage.removeItem('sellerName');
+            window.location.reload();
+        });
+
+        // Close modal logic
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('closeQuickView').addEventListener('click', function() {
+                document.getElementById('quickViewModal').style.display = 'none';
+            });
+            document.getElementById('quickViewModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.style.display = 'none';
+                }
+            });
+
+            document.getElementById('loginBtn').addEventListener('click', function() {
+                window.location.href = 'loading.html';
+            });
+            document.getElementById('signupBtn').addEventListener('click', function() {
+                window.location.href = 'signup.html';
+            });
+        });
+
+        // Filter functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const applyFiltersBtn = document.getElementById('applyFilters');
+            const clearFiltersBtn = document.getElementById('clearFilters');
+            
+            function applyFilters() {
+                const selectedCategories = Array.from(document.querySelectorAll('.category-filter:checked')).map(cb => cb.value);
+                const minPrice = document.getElementById('minPrice').value;
+                const maxPrice = document.getElementById('maxPrice').value;
+                const selectedRatings = Array.from(document.querySelectorAll('.rating-filter:checked')).map(cb => parseInt(cb.value));
+                const selectedDiscounts = Array.from(document.querySelectorAll('.discount-filter:checked')).map(cb => parseInt(cb.value));
+                const selectedAvailability = Array.from(document.querySelectorAll('.availability-filter:checked')).map(cb => cb.value);
+                
+                let products = JSON.parse(localStorage.getItem('products')) || [];
+                
+                // Apply filters
+                let filteredProducts = products.filter(product => {
+                    // Category filter
+                    if (selectedCategories.length > 0 && !selectedCategories.includes(product.category)) {
+                        return false;
+                    }
+                    
+                    // Price filter
+                    if (minPrice && product.price < parseFloat(minPrice)) {
+                        return false;
+                    }
+                    if (maxPrice && product.price > parseFloat(maxPrice)) {
+                        return false;
+                    }
+                    
+                    // Rating filter
+                    if (selectedRatings.length > 0) {
+                        const minRating = Math.min(...selectedRatings);
+                        if (!product.rating || product.rating < minRating) {
+                            return false;
+                        }
+                    }
+                    
+                    // Discount filter
+                    if (selectedDiscounts.length > 0) {
+                        const minDiscount = Math.min(...selectedDiscounts);
+                        if (!product.setOff || product.setOff < minDiscount) {
+                            return false;
+                        }
+                    }
+                    
+                    // Availability filter
+                    if (selectedAvailability.length > 0) {
+                        const isInStock = product.stock > 0;
+                        if (selectedAvailability.includes('inStock') && !isInStock) {
+                            return false;
+                        }
+                        if (selectedAvailability.includes('outOfStock') && isInStock) {
+                            return false;
+                        }
+                    }
+                    
+                    return true;
+                });
+                
+                // Update the products grid with filtered results
+                updateProductsGrid(filteredProducts);
+            }
+            
+            function clearFilters() {
+                // Clear all checkboxes
+                document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+                
+                // Clear price inputs
+                document.getElementById('minPrice').value = '';
+                document.getElementById('maxPrice').value = '';
+                
+                // Reload all products
+                loadProducts();
+            }
+            
+            function updateProductsGrid(products) {
+                const productsGrid = document.getElementById('productsGrid');
+                if (products.length === 0) {
+                    productsGrid.innerHTML = '<p style="text-align:center;">No products match your filters.</p>';
+                    return;
+                }
+                
+                // Use the existing product card template
+                productsGrid.innerHTML = products.map(product => {
+                    let priceHtml = '';
+                    if (product.setOff && product.setOff > 0) {
+                        const discounted = Math.round(product.price * (1 - product.setOff / 100));
+                        priceHtml = `
+                            <div class="product-price">
+                                <span style="text-decoration:line-through;color:#888;font-size:0.95em;margin-right:8px;">₹${product.price}</span>
+                                <span style="color:#ff6b6b;font-weight:700;font-size:1.1em;">₹${discounted}</span>
+                                <span class="discount-badge">-${product.setOff}% OFF</span>
+                            </div>
+                        `;
+                    } else {
+                        priceHtml = `<div class="product-price">₹${product.price}</div>`;
+                    }
+                    
+                    return `
+                        <div class="product-card">
+                            <div class="product-image" onclick="openProductDetails('${product.id}')">
+                                <img src="${product.image}" alt="${product.name}">
+                                <button class="wishlist-btn" data-product-id="${product.id}" onclick="toggleWishlist('${product.id}')">
+                                    <i class="fas fa-heart"></i>
+                                    <span class="wishlist-tooltip">Add to Wishlist</span>
+                                </button>
+                            </div>
+                            <div class="product-info">
+                                <h3>${product.name}</h3>
+                                ${priceHtml}
+                                <button class="add-to-cart" data-product-id="${product.id}" data-product-name="${product.name}" data-product-price="${product.price}">Add to Cart</button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                
+                // Re-attach event listeners
+                attachProductEventListeners();
+            }
+            
+            // Event listeners
+            applyFiltersBtn.addEventListener('click', applyFilters);
+            clearFiltersBtn.addEventListener('click', clearFilters);
+            
+            // Add input event listeners for price filters
+            document.getElementById('minPrice').addEventListener('input', applyFilters);
+            document.getElementById('maxPrice').addEventListener('input', applyFilters);
+            
+            // Add change event listeners for checkbox filters
+            document.querySelectorAll('.category-filter, .rating-filter, .discount-filter, .availability-filter').forEach(filter => {
+                filter.addEventListener('change', applyFilters);
+            });
+        });
+
+        // Update the toggle function for single dropdown
+        function toggleFilter(header) {
+            const content = header.nextElementSibling;
+            const toggle = header.querySelector('.filter-toggle');
+            
+            content.classList.toggle('active');
+            toggle.classList.toggle('active');
+        }
+
+        // Initialize filter as collapsed
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('.filter-content').classList.remove('active');
+            document.querySelector('.filter-toggle').classList.remove('active');
+        });
+
+        // Wishlist functionality
+        function toggleWishlist(productId) {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            if (!isLoggedIn) {
+                alert('Please login to add items to your wishlist');
+                window.location.href = 'loading.html';
+                return;
+            }
+
+            const userName = localStorage.getItem('userName');
+            let wishlist = JSON.parse(localStorage.getItem(`wishlist_${userName}`)) || [];
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            const product = products.find(p => p.id === productId);
+            
+            if (!product) {
+                console.error('Product not found:', productId);
+                return;
+            }
+
+            const isInWishlist = wishlist.some(item => item.id === productId);
+            const wishlistBtn = document.querySelector(`.wishlist-btn[data-product-id="${productId}"]`);
+            
+            if (isInWishlist) {
+                wishlist = wishlist.filter(item => item.id !== productId);
+                wishlistBtn.classList.remove('active');
+                wishlistBtn.innerHTML = `
+                    <i class="fas fa-heart"></i>
+                    <span class="wishlist-tooltip">Add to Wishlist</span>
+                `;
+            } else {
+                wishlist.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image,
+                    setOff: product.setOff
+                });
+                wishlistBtn.classList.add('active');
+                wishlistBtn.innerHTML = `
+                    <i class="fas fa-heart"></i>
+                    <span class="wishlist-tooltip">Remove from Wishlist</span>
+                `;
+            }
+            
+            localStorage.setItem(`wishlist_${userName}`, JSON.stringify(wishlist));
+            console.log('Wishlist updated:', wishlist);
+        }
+
+        function updateWishlistButtons() {
+            const userName = localStorage.getItem('userName');
+            if (!userName) return;
+            
+            const wishlist = JSON.parse(localStorage.getItem(`wishlist_${userName}`)) || [];
+            console.log('Current wishlist:', wishlist);
+            
+            document.querySelectorAll('.wishlist-btn').forEach(btn => {
+                const productId = btn.dataset.productId;
+                const isInWishlist = wishlist.some(item => item.id === productId);
+                btn.classList.toggle('active', isInWishlist);
+                btn.innerHTML = `
+                    <i class="fas fa-heart"></i>
+                    <span class="wishlist-tooltip">${isInWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}</span>
+                `;
+            });
+        }
+
+        // Add this function to initialize wishlist data
+        function initializeWishlist() {
+            const userName = localStorage.getItem('userName');
+            if (!userName) return;
+            
+            const wishlist = JSON.parse(localStorage.getItem(`wishlist_${userName}`)) || [];
+            if (wishlist.length === 0) {
+                localStorage.setItem(`wishlist_${userName}`, JSON.stringify([]));
+            }
+        }
+
+        // Call initializeWishlist when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeWishlist();
+            updateWishlistButtons();
+
+            // Flash Sales Countdown Timer
+            function updateCountdown() {
+                // Get the stored end date or set a new one
+                let endDate = new Date(localStorage.getItem('flashSaleEndDate'));
+                const now = new Date();
+
+                // If no end date stored or sale has ended, set a new end date (5 days from now)
+                if (!endDate || endDate < now) {
+                    endDate = new Date();
+                    endDate.setDate(endDate.getDate() + 5);
+                    localStorage.setItem('flashSaleEndDate', endDate);
+                }
+
+                const diff = endDate - now;
+                const shopNowBtn = document.querySelector('.flash-sales-btn');
+
+                // Update Chor Bazar visibility based on timer status
+                const chorBazarNav = document.getElementById('chorBazarNav');
+                const isSaleActive = diff > 0;
+                chorBazarNav.style.display = isSaleActive ? 'none' : 'list-item';
+
+                // Update Shop Now button state
+                if (shopNowBtn) {
+                    if (diff <= 0) {
+                        shopNowBtn.style.opacity = '0.5';
+                        shopNowBtn.style.cursor = 'not-allowed';
+                        shopNowBtn.title = 'Sale has ended';
+                        shopNowBtn.disabled = true;
+                        // Reload products when timer ends
+                        loadProducts();
+                    } else {
+                        shopNowBtn.style.opacity = '1';
+                        shopNowBtn.style.cursor = 'pointer';
+                        shopNowBtn.title = 'Shop Now';
+                        shopNowBtn.disabled = false;
+                    }
+                }
+
+                if (diff <= 0) {
+                    // Flash sale has ended
+                    document.querySelector('.flash-sales-container').innerHTML = `
+                        <div class="flash-sales-content">
+                            <h2>Flash Sale Ended</h2>
+                            <p>Stay tuned for our next flash sale!</p>
+                            <div class="next-sale-timer">
+                                <p>Next sale starts in:</p>
+                                <div class="countdown-timer">
+                                    <div class="timer-item">
+                                        <span id="nextDays">00</span>
+                                        <span class="timer-label">Days</span>
+                                    </div>
+                                    <div class="timer-item">
+                                        <span id="nextHours">00</span>
+                                        <span class="timer-label">Hours</span>
+                                    </div>
+                                    <div class="timer-item">
+                                        <span id="nextMinutes">00</span>
+                                        <span class="timer-label">Minutes</span>
+                                    </div>
+                                    <div class="timer-item">
+                                        <span id="nextSeconds">00</span>
+                                        <span class="timer-label">Seconds</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    // Calculate time until next sale (2 days after current sale ends)
+                    const nextSaleDate = new Date(endDate);
+                    nextSaleDate.setDate(nextSaleDate.getDate() + 2);
+                    const nextSaleDiff = nextSaleDate - now;
+
+                    if (nextSaleDiff <= 0) {
+                        // Start new sale
+                        localStorage.removeItem('flashSaleEndDate');
+                        updateCountdown();
+                        return;
+                    }
+
+                    // Update next sale countdown
+                    const nextDays = Math.floor(nextSaleDiff / (1000 * 60 * 60 * 24));
+                    const nextHours = Math.floor((nextSaleDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const nextMinutes = Math.floor((nextSaleDiff % (1000 * 60 * 60)) / (1000 * 60));
+                    const nextSeconds = Math.floor((nextSaleDiff % (1000 * 60)) / 1000);
+
+                    document.getElementById('nextDays').textContent = String(nextDays).padStart(2, '0');
+                    document.getElementById('nextHours').textContent = String(nextHours).padStart(2, '0');
+                    document.getElementById('nextMinutes').textContent = String(nextMinutes).padStart(2, '0');
+                    document.getElementById('nextSeconds').textContent = String(nextSeconds).padStart(2, '0');
+                    return;
+                }
+
+                // Calculate time units for current sale
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                // Update the timer display
+                document.getElementById('days').textContent = String(days).padStart(2, '0');
+                document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+                document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+                document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+            }
+
+            // Update countdown every second
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+
+            // Add click handler for Shop Now button
+            document.querySelector('.flash-sales-btn').addEventListener('click', function() {
+                const endDate = new Date(localStorage.getItem('flashSaleEndDate'));
+                const now = new Date();
+                
+                if (!endDate || endDate > now) {
+                    // If no end date or sale is still active, redirect to special deals
+                    window.location.href = 'special-deals.html';
+                } else {
+                    alert('Flash sale has ended. Please wait for the next sale!');
+                }
+            });
+
+            // Newsletter form handling
+            const newsletterForm = document.getElementById('newsletterForm');
+            const newsletterEmail = document.getElementById('newsletterEmail');
+            const newsletterMessage = document.getElementById('newsletterMessage');
+
+            newsletterForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const email = newsletterEmail.value.trim();
+                
+                // Validate email
+                if (!isValidEmail(email)) {
+                    showNewsletterMessage('Please enter a valid email address', 'error');
+                    return;
+                }
+
+                // Get existing subscribers or initialize empty array
+                let subscribers = JSON.parse(localStorage.getItem('newsletterSubscribers')) || [];
+                
+                // Check if email is already subscribed
+                if (subscribers.includes(email)) {
+                    showNewsletterMessage('You are already subscribed to our newsletter!', 'error');
+                    return;
+                }
+
+                // Add new subscriber
+                subscribers.push(email);
+                localStorage.setItem('newsletterSubscribers', JSON.stringify(subscribers));
+                
+                // Show success message
+                showNewsletterMessage('Thank you for subscribing to our newsletter!', 'success');
+                
+                // Clear the input
+                newsletterEmail.value = '';
+            });
+
+            function isValidEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            }
+
+            function showNewsletterMessage(message, type) {
+                newsletterMessage.textContent = message;
+                newsletterMessage.className = 'newsletter-message ' + type;
+                
+                // Hide message after 5 seconds
+                setTimeout(() => {
+                    newsletterMessage.style.display = 'none';
+                }, 5000);
+            }
+        });
+
+        // Add new function to open product details
+        function openProductDetails(productId) {
+            window.location.href = `product-details.html?id=${productId}`;
+        }
+
+        // Language support
+        const translations = {
+            en: {
+                searchPlaceholder: "Search for products...",
+                addToCart: "Add to Cart",
+                addedToCart: "Added to Cart!",
+                login: "Login",
+                logout: "Logout",
+                home: "Home",
+                specialDeals: "Special Deals",
+                newArrivals: "New Arrivals",
+                chorBazar: "Chor Bazar",
+                contact: "Contact",
+                customerService: "Customer Service",
+                aboutUs: "About Us",
+                followUs: "Follow Us",
+                rightsReserved: "All rights reserved"
+            },
+            hi: {
+                searchPlaceholder: "उत्पादों की खोज करें...",
+                addToCart: "कार्ट में जोड़ें",
+                addedToCart: "कार्ट में जोड़ा गया!",
+                login: "लॉग इन",
+                logout: "लॉग आउट",
+                home: "होम",
+                specialDeals: "विशेष ऑफर",
+                newArrivals: "नए आगमन",
+                chorBazar: "चोर बाजार",
+                contact: "संपर्क",
+                customerService: "ग्राहक सेवा",
+                aboutUs: "हमारे बारे में",
+                followUs: "हमें फॉलो करें",
+                rightsReserved: "सर्वाधिकार सुरक्षित"
+            },
+            es: {
+                searchPlaceholder: "Buscar productos...",
+                addToCart: "Añadir al carrito",
+                addedToCart: "¡Añadido al carrito!",
+                login: "Iniciar sesión",
+                logout: "Cerrar sesión",
+                home: "Inicio",
+                specialDeals: "Ofertas especiales",
+                newArrivals: "Nuevos productos",
+                chorBazar: "Chor Bazar",
+                contact: "Contacto",
+                customerService: "Servicio al cliente",
+                aboutUs: "Sobre nosotros",
+                followUs: "Síguenos",
+                rightsReserved: "Todos los derechos reservados"
+            },
+            fr: {
+                searchPlaceholder: "Rechercher des produits...",
+                addToCart: "Ajouter au panier",
+                addedToCart: "Ajouté au panier!",
+                login: "Connexion",
+                logout: "Déconnexion",
+                home: "Accueil",
+                specialDeals: "Offres spéciales",
+                newArrivals: "Nouveautés",
+                chorBazar: "Chor Bazar",
+                contact: "Contact",
+                customerService: "Service client",
+                aboutUs: "À propos",
+                followUs: "Suivez-nous",
+                rightsReserved: "Tous droits réservés"
+            }
+        };
+
+        // Language selector functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const languageBtn = document.getElementById('languageBtn');
+            const languageDropdown = document.getElementById('languageDropdown');
+            const currentFlag = document.getElementById('currentFlag');
+            const currentLanguage = document.getElementById('currentLanguage');
+            
+            // Load saved language preference
+            const savedLanguage = localStorage.getItem('language') || 'en';
+            updateLanguage(savedLanguage);
+
+            languageBtn.addEventListener('click', function() {
+                languageDropdown.classList.toggle('active');
+            });
+
+            document.querySelectorAll('.language-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const lang = this.dataset.lang;
+                    const flag = this.dataset.flag;
+                    updateLanguage(lang, flag);
+                    languageDropdown.classList.remove('active');
+                });
+            });
+
+            function updateLanguage(lang, flag) {
+                const translation = translations[lang];
+                if (!translation) return;
+
+                // Update UI elements
+                document.querySelector('#searchInput').placeholder = translation.searchPlaceholder;
+                document.querySelectorAll('.add-to-cart').forEach(btn => {
+                    btn.textContent = translation.addToCart;
+                });
+                document.querySelectorAll('.main-nav a').forEach((link, index) => {
+                    const translations = [
+                        translation.home,
+                        translation.specialDeals,
+                        translation.newArrivals,
+                        translation.chorBazar,
+                        translation.contact
+                    ];
+                    if (translations[index]) {
+                        link.textContent = translations[index];
+                    }
+                });
+                document.querySelector('#loginBtn').innerHTML = `<i class="fas fa-user"></i> ${translation.login}`;
+                document.querySelector('#logoutBtn').textContent = translation.logout;
+                document.querySelectorAll('.footer-section h4').forEach((heading, index) => {
+                    const translations = [
+                        translation.customerService,
+                        translation.aboutUs,
+                        translation.followUs
+                    ];
+                    if (translations[index]) {
+                        heading.textContent = translations[index];
+                    }
+                });
+                document.querySelector('.footer-bottom p').textContent = `© 2024 FA Shop. ${translation.rightsReserved}`;
+
+                // Update current language display
+                currentLanguage.textContent = document.querySelector(`.language-option[data-lang="${lang}"] span`).textContent;
+                if (flag) {
+                    currentFlag.src = `https://flagcdn.com/w20/${flag}.png`;
+                }
+
+                // Save language preference
+                localStorage.setItem('language', lang);
+            }
+        });
+
+        function addLoyaltyPoints(amount) {
+            const userName = localStorage.getItem('userName');
+            if (!userName) return;
+            let points = parseInt(localStorage.getItem(`loyaltyPoints_${userName}`)) || 0;
+            points += Math.floor(amount / 100); // 1 point per ₹100
+            localStorage.setItem(`loyaltyPoints_${userName}`, points);
+            updateLoyaltyPointsDisplay();
+        }
+
+        function updateLoyaltyPointsDisplay() {
+            const userName = localStorage.getItem('userName');
+            const display = document.getElementById('loyaltyPointsDisplay');
+            if (!userName || !display) return;
+            const points = localStorage.getItem(`loyaltyPoints_${userName}`) || 0;
+            display.textContent = `Points: ${points}`;
+        }
+
+        // Load 3 products for the bottom banner (you can change the number)
+        function loadBottomBannerProducts() {
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            const banner = document.getElementById('bottomBannerProducts');
+            if (!banner) return;
+            // Filter for discounted products only
+            const discountedProducts = products.filter(product => product.setOff && product.setOff > 0);
+            if (discountedProducts.length === 0) {
+                banner.innerHTML = '<div>No special offers available right now.</div>';
+                return;
+            }
+            // Pick first 3 discounted products
+            const showProducts = discountedProducts.slice(0, 3);
+            banner.innerHTML = showProducts.map(product => `
+                <div class="banner-product" style="cursor:pointer" onclick="window.location.href='product-details.html?id=${product.id}'">
+                    <img src="${product.image}" alt="${product.name}">
+                    <div>
+                        <div class="banner-product-title">${product.name}</div>
+                        <div class="banner-product-offer">
+                            ₹${product.price}
+                            <span class="old-price">₹${Math.round(product.price/(1-product.setOff/100))}</span>
+                            <span class="discount-badge">-${product.setOff}% OFF</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        document.addEventListener('DOMContentLoaded', loadBottomBannerProducts);
+
+        // Flash Sales functionality
+        function initializeFlashSale() {
+            let endDate = new Date(localStorage.getItem('flashSaleEndDate'));
+            const now = new Date();
+
+            // If no end date or sale has ended, set new sale
+            if (!endDate || endDate < now) {
+                endDate = new Date();
+                endDate.setHours(endDate.getHours() + 24); // 24-hour sale
+                localStorage.setItem('flashSaleEndDate', endDate);
+            }
+
+            updateFlashSaleUI(endDate);
+            setInterval(() => updateFlashSaleUI(endDate), 1000);
+        }
+
+        function updateFlashSaleUI(endDate) {
+            const now = new Date();
+            const diff = endDate - now;
+            const flashSaleContainer = document.querySelector('.flash-sales-container');
+            const shopNowBtn = document.querySelector('.flash-sales-btn');
+
+            if (diff <= 0) {
+                // Sale has ended
+                flashSaleContainer.innerHTML = `
+                    <div class="flash-sales-content">
+                        <h2>Flash Sale Ended</h2>
+                        <p>Stay tuned for our next flash sale!</p>
+                        <div class="next-sale-timer">
+                            <p>Next sale starts in:</p>
+                            <div class="countdown-timer">
+                                <div class="timer-item">
+                                    <span id="nextDays">00</span>
+                                    <span class="timer-label">Days</span>
+                                </div>
+                                <div class="timer-item">
+                                    <span id="nextHours">00</span>
+                                    <span class="timer-label">Hours</span>
+                                </div>
+                                <div class="timer-item">
+                                    <span id="nextMinutes">00</span>
+                                    <span class="timer-label">Minutes</span>
+                                </div>
+                                <div class="timer-item">
+                                    <span id="nextSeconds">00</span>
+                                    <span class="timer-label">Seconds</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                // Calculate next sale time (24 hours after current sale ends)
+                const nextSaleDate = new Date(endDate);
+                nextSaleDate.setHours(nextSaleDate.getHours() + 24);
+                updateNextSaleCountdown(nextSaleDate);
+            } else {
+                // Sale is active
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                document.getElementById('days').textContent = String(days).padStart(2, '0');
+                document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+                document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+                document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+
+                if (shopNowBtn) {
+                    shopNowBtn.style.opacity = '1';
+                    shopNowBtn.style.cursor = 'pointer';
+                    shopNowBtn.title = 'Shop Now';
+                    shopNowBtn.onclick = () => window.location.href = 'special-deals.html';
+                }
+            }
+        }
+
+        function updateNextSaleCountdown(nextSaleDate) {
+            const now = new Date();
+            const diff = nextSaleDate - now;
+
+            if (diff <= 0) {
+                // Start new sale
+                localStorage.removeItem('flashSaleEndDate');
+                initializeFlashSale();
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('nextDays').textContent = String(days).padStart(2, '0');
+            document.getElementById('nextHours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('nextMinutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('nextSeconds').textContent = String(seconds).padStart(2, '0');
+        }
+
+        // Initialize flash sale when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeFlashSale();
+            
+            // Add click handler for Shop Now button
+            const shopNowBtn = document.querySelector('.flash-sales-btn');
+            if (shopNowBtn) {
+                shopNowBtn.addEventListener('click', function() {
+                    const endDate = new Date(localStorage.getItem('flashSaleEndDate'));
+                    const now = new Date();
+                    
+                    if (endDate && endDate > now) {
+                        window.location.href = 'special-deals.html';
+                    } else {
+                        alert('Flash sale has ended. Please wait for the next sale!');
+                    }
+                });
+            }
+        });
+
+        // Referral Program functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const referralCode = document.getElementById('referralCode');
+            const totalReferrals = document.getElementById('totalReferrals');
+            const totalEarnings = document.getElementById('totalEarnings');
+            const copyCodeBtn = document.getElementById('copyCode');
+
+            // Load referral data
+            loadReferralData();
+
+            function loadReferralData() {
+                const userName = localStorage.getItem('userName');
+                if (userName) {
+                    const referralData = JSON.parse(localStorage.getItem(`referralData_${userName}`)) || { referrals: 0, earnings: 0 };
+                    referralCode.textContent = userName;
+                    totalReferrals.textContent = referralData.referrals;
+                    totalEarnings.textContent = `₹${referralData.earnings}`;
+                } else {
+                    referralCode.textContent = 'No referral code';
+                    totalReferrals.textContent = '0';
+                    totalEarnings.textContent = '₹0';
+                }
+            }
+
+            copyCodeBtn.addEventListener('click', function() {
+                const referralCodeText = referralCode.textContent;
+                const tempInput = document.createElement('input');
+                tempInput.value = referralCodeText;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+                alert('Referral code copied to clipboard!');
+            });
+        });
+
+        // Share functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const shareButtons = document.querySelectorAll('.share-btn');
+
+            shareButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const platform = this.classList[1];
+                    switch (platform) {
+                        case 'whatsapp':
+                            shareOnWhatsApp();
+                            break;
+                        case 'telegram':
+                            shareOnTelegram();
+                            break;
+                        case 'email':
+                            shareViaEmail();
+                            break;
+                    }
+                });
+            });
+
+            function shareOnWhatsApp() {
+                const referralCode = document.getElementById('referralCode').textContent;
+                const shareUrl = `https://wa.me/?text=Check out this amazing deal on FA Shop! Use my referral code: ${referralCode}`;
+                window.open(shareUrl, '_blank');
+            }
+
+            function shareOnTelegram() {
+                const referralCode = document.getElementById('referralCode').textContent;
+                const shareUrl = `https://t.me/share/url?url=https://fa-shop.com&text=Check out this amazing deal on FA Shop! Use my referral code: ${referralCode}`;
+                window.open(shareUrl, '_blank');
+            }
+
+            function shareViaEmail() {
+                const referralCode = document.getElementById('referralCode').textContent;
+                const emailSubject = 'Check out this amazing deal on FA Shop!';
+                const emailBody = `Use my referral code: ${referralCode} to get exclusive discounts and benefits!`;
+                const mailtoLink = `mailto:?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+                window.location.href = mailtoLink;
+            }
+        });
+
+        // Function to handle referral rewards
+        function processReferral(referrerCode) {
+            const userName = localStorage.getItem('userName');
+            if (!userName || userName === referrerCode) return false;
+
+            // Check if this is a new referral
+            const referrals = JSON.parse(localStorage.getItem('referrals')) || [];
+            if (referrals.includes(userName)) return false;
+
+            // Add to referrals list
+            referrals.push(userName);
+            localStorage.setItem('referrals', JSON.stringify(referrals));
+
+            // Update referrer's data
+            const referrerData = JSON.parse(localStorage.getItem(`referralData_${referrerCode}`)) || { referrals: 0, earnings: 0 };
+            referrerData.referrals += 1;
+            referrerData.earnings += 500; // ₹500 per referral
+            localStorage.setItem(`referralData_${referrerCode}`, JSON.stringify(referrerData));
+
+            // Add reward to referrer's wallet
+            const referrerWallet = JSON.parse(localStorage.getItem(`wallet_${referrerCode}`)) || { balance: 0 };
+            referrerWallet.balance += 500;
+            localStorage.setItem(`wallet_${referrerCode}`, JSON.stringify(referrerWallet));
+
+            return true;
+        }
+
+        // Function to check for referral code in URL
+        function checkReferralCode() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const referralCode = urlParams.get('ref');
+            if (referralCode) {
+                processReferral(referralCode);
+            }
+        }
+
+        // Check for referral code when page loads
+        document.addEventListener('DOMContentLoaded', checkReferralCode);
+
+        // Add buyNow function
+        function buyNow(productId, productName, productPrice) {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            if (!isLoggedIn) {
+                alert('Please login to proceed with purchase');
+                window.location.href = 'loading.html';
+                return;
+            }
+
+            // Store the product details in localStorage for the payment page
+            const orderDetails = {
+                productId,
+                productName,
+                price: productPrice,
+                quantity: 1,
+                timestamp: new Date().toISOString()
+            };
+            localStorage.setItem('currentOrder', JSON.stringify(orderDetails));
+            
+            // Redirect to payment page
+            window.location.href = 'payment.html';
+        }
+
+        // Update the performSearch function
+        function performSearch() {
+            const searchQuery = document.getElementById('searchInput').value.trim();
+            if (searchQuery) {
+                // Store the search query in localStorage
+                localStorage.setItem('searchQuery', searchQuery);
+                // Redirect to search results page
+                window.location.href = `search-results.html?q=${encodeURIComponent(searchQuery)}`;
+            }
+        }
+
+        // Add event listener for Enter key
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+
+        // Add keyboard navigation for main menu
+        document.querySelectorAll('.main-nav a').forEach(link => {
+            link.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    link.click();
+                }
+            });
+        });
+
+        // Enhanced search functionality with keyboard navigation
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const searchSuggestions = document.getElementById('searchSuggestions');
+
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const query = searchInput.value.trim();
+                if (query) {
+                    window.location.href = `search-results.html?q=${encodeURIComponent(query)}`;
+                }
+            } else if (e.key === 'Escape') {
+                searchSuggestions.classList.remove('active');
+            }
+        });
+
+        searchBtn.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                const query = searchInput.value.trim();
+                if (query) {
+                    window.location.href = `search-results.html?q=${encodeURIComponent(query)}`;
+                }
+            }
+        });
+
+        // Add keyboard navigation for product cards
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    const productLink = card.querySelector('h3').closest('a');
+                    if (productLink) {
+                        productLink.click();
+                    }
+                }
+            });
+        });
+
+        // Add keyboard navigation for wishlist and add to cart buttons
+        document.querySelectorAll('.wishlist-btn, .add-to-cart').forEach(button => {
+            button.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    e.stopPropagation(); // Prevent triggering the card's click event
+                    button.click();
+                }
+            });
+        });
+
+        // Add keyboard navigation for language selector
+        const languageBtn = document.getElementById('languageBtn');
+        const languageDropdown = document.querySelector('.language-dropdown');
+        const languageOptions = document.querySelectorAll('.language-option');
+
+        languageBtn.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowDown') {
+                e.preventDefault();
+                languageDropdown.classList.add('active');
+                languageBtn.setAttribute('aria-expanded', 'true');
+                languageOptions[0].focus();
+            }
+        });
+
+        languageOptions.forEach((option, index) => {
+            option.addEventListener('keydown', (e) => {
+                switch (e.key) {
+                    case 'Enter':
+                    case ' ':
+                        e.preventDefault();
+                        option.click();
+                        languageDropdown.classList.remove('active');
+                        languageBtn.setAttribute('aria-expanded', 'false');
+                        languageBtn.focus();
+                        break;
+                    case 'ArrowDown':
+                        e.preventDefault();
+                        if (index < languageOptions.length - 1) {
+                            languageOptions[index + 1].focus();
+                        }
+                        break;
+                    case 'ArrowUp':
+                        e.preventDefault();
+                        if (index > 0) {
+                            languageOptions[index - 1].focus();
+                        } else {
+                            languageBtn.focus();
+                        }
+                        break;
+                    case 'Escape':
+                        e.preventDefault();
+                        languageDropdown.classList.remove('active');
+                        languageBtn.setAttribute('aria-expanded', 'false');
+                        languageBtn.focus();
+                        break;
+                }
+            });
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.language-selector')) {
+                languageDropdown.classList.remove('active');
+                languageBtn.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        // Add these new functions for coupon functionality
+        function initializeCoupons() {
+            // Sample coupon data - in a real app, this would come from a database
+            const coupons = {
+                'WELCOME10': { discount: 10, type: 'percentage', minPurchase: 500 },
+                'FLAT50': { discount: 50, type: 'fixed', minPurchase: 1000 },
+                'SUMMER20': { discount: 20, type: 'percentage', minPurchase: 1000 }
+            };
+            localStorage.setItem('coupons', JSON.stringify(coupons));
+        }
+
+        function toggleCouponSection() {
+            const couponSection = document.querySelector('.coupon-section');
+            couponSection.style.display = couponSection.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function applyCoupon() {
+            const couponCode = document.getElementById('couponCode').value.toUpperCase();
+            const coupons = JSON.parse(localStorage.getItem('coupons')) || {};
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            // Calculate total cart value
+            const totalCartValue = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            if (!coupons[couponCode]) {
+                showCouponMessage('Invalid coupon code', 'error');
+                return;
+            }
+            
+            const coupon = coupons[couponCode];
+            if (totalCartValue < coupon.minPurchase) {
+                showCouponMessage(`Minimum purchase of ₹${coupon.minPurchase} required`, 'error');
+                return;
+            }
+            
+            // Calculate discount
+            let discountAmount;
+            if (coupon.type === 'percentage') {
+                discountAmount = (totalCartValue * coupon.discount) / 100;
+            } else {
+                discountAmount = coupon.discount;
+            }
+            
+            // Store active coupon
+            localStorage.setItem('activeCoupon', JSON.stringify({
+                code: couponCode,
+                discount: discountAmount,
+                type: coupon.type
+            }));
+            
+            // Update UI
+            document.getElementById('activeCoupon').style.display = 'block';
+            document.getElementById('activeCouponCode').textContent = `Coupon: ${couponCode}`;
+            document.getElementById('couponDiscount').textContent = 
+                `Discount: ₹${discountAmount.toFixed(2)}`;
+            showCouponMessage('Coupon applied successfully!', 'success');
+            
+            // Update cart total
+            updateCartTotal();
+        }
+
+        function removeCoupon() {
+            localStorage.removeItem('activeCoupon');
+            document.getElementById('activeCoupon').style.display = 'none';
+            document.getElementById('couponCode').value = '';
+            showCouponMessage('Coupon removed', 'info');
+            updateCartTotal();
+        }
+
+        function showCouponMessage(message, type) {
+            const messageDiv = document.getElementById('couponMessage');
+            messageDiv.textContent = message;
+            messageDiv.style.color = type === 'error' ? 'var(--error-color)' : 
+                                    type === 'success' ? 'var(--success-color)' : 
+                                    'var(--text-color)';
+        }
+
+        function updateCartTotal() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const activeCoupon = JSON.parse(localStorage.getItem('activeCoupon'));
+            
+            let total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            let discount = 0;
+            
+            if (activeCoupon) {
+                discount = activeCoupon.discount;
+            }
+            
+            const finalTotal = total - discount;
+            
+            // Update total display (you'll need to add this element to your cart page)
+            const totalElement = document.getElementById('cartTotal');
+            if (totalElement) {
+                totalElement.innerHTML = `
+                    <div class="cart-summary">
+                        <div class="subtotal">Subtotal: ₹${total.toFixed(2)}</div>
+                        ${discount > 0 ? `<div class="discount">Discount: -₹${discount.toFixed(2)}</div>` : ''}
+                        <div class="final-total">Total: ₹${finalTotal.toFixed(2)}</div>
+                    </div>
+                `;
+            }
+        }
+
+        // Add event listeners when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize coupons
+            initializeCoupons();
+            
+            // Add event listeners for coupon functionality
+            const cartIcon = document.getElementById('cartIcon');
+            const closeCoupon = document.querySelector('.close-coupon');
+            const applyCouponBtn = document.getElementById('applyCoupon');
+            const removeCouponBtn = document.getElementById('removeCoupon');
+            
+            cartIcon.addEventListener('click', toggleCouponSection);
+            closeCoupon.addEventListener('click', toggleCouponSection);
+            applyCouponBtn.addEventListener('click', applyCoupon);
+            removeCouponBtn.addEventListener('click', removeCoupon);
+            
+            // Close coupon section when clicking outside
+            document.addEventListener('click', function(e) {
+                const couponSection = document.querySelector('.coupon-section');
+                if (!e.target.closest('.coupon-section') && !e.target.closest('#cartIcon')) {
+                    couponSection.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

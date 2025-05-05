@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - FA Shop</title>
+    <link rel="stylesheet" href="product-details.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header and Navigation (same as FA shop.html) -->
+        <header>
+            <div class="header-top">
+                <h1>FA Shop</h1>
+                <div class="header-actions">
+                    <div class="search-bar">
+                        <div class="search-container">
+                            <input type="text" placeholder="Search for products..." id="searchInput">
+                            <button onclick="performSearch()">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="cart-icon" id="cartIcon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <nav class="main-nav">
+            <ul>
+                <li><a href="Index.html">Home</a></li>
+                <li><a href="special-deals.html">Special Deals</a></li>
+                <li><a href="new-arrivals.html">New Arrivals</a></li>
+                <li id="chorBazarNav" style="display: none;"><a href="chor-bazar.html">Chor Bazar</a></li>
+                <li><a href="address-book.html">Address Book</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+
+        <!-- Product Details Section -->
+        <div class="product-details-container">
+            <div class="product-details-content">
+                <!-- Product Gallery -->
+                <div class="product-gallery">
+                    <div class="zoom-container">
+                        <img src="https://via.placeholder.com/600" alt="Product Image" class="main-image" id="mainImage">
+                        <div class="zoom-lens" id="zoomLens"></div>
+                        <div class="zoom-result" id="zoomResult"></div>
+                    </div>
+                    <div class="thumbnail-container" id="thumbnailContainer">
+                        <img src="https://via.placeholder.com/150" alt="Thumbnail 1" class="thumbnail active">
+                        <img src="https://via.placeholder.com/150" alt="Thumbnail 2" class="thumbnail">
+                        <img src="https://via.placeholder.com/150" alt="Thumbnail 3" class="thumbnail">
+                        <img src="https://via.placeholder.com/150" alt="Thumbnail 4" class="thumbnail">
+                    </div>
+                </div>
+
+                <!-- Product Info -->
+                <div class="product-info">
+                    <h1 class="product-title">Premium Wireless Headphones</h1>
+                    
+                    <div class="product-price-container">
+                        <span class="current-price">₹2,999</span>
+                        <span class="original-price">₹4,999</span>
+                        <span class="discount-badge">40% OFF</span>
+                    </div>
+
+                    <div class="product-rating">
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="review-count">(128 reviews)</span>
+                    </div>
+
+                    <div class="stock-status in-stock">
+                        <i class="fas fa-check-circle"></i>
+                        In Stock
+                    </div>
+
+                    <p class="product-description">
+                        Experience crystal-clear sound with our premium wireless headphones. 
+                        Featuring active noise cancellation, 30-hour battery life, and 
+                        comfortable over-ear design for extended listening sessions.
+                    </p>
+
+                    <div class="quantity-selector">
+                        <button class="quantity-btn" id="decreaseQuantity">-</button>
+                        <input type="number" class="quantity-input" value="1" min="1" max="10" id="quantityInput">
+                        <button class="quantity-btn" id="increaseQuantity">+</button>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="add-to-cart-btn" id="addToCartBtn">
+                            <i class="fas fa-shopping-cart"></i>
+                            Add to Cart
+                        </button>
+                        <button class="buy-now-btn" id="buyNowBtn">
+                            <i class="fas fa-bolt"></i>
+                            Buy Now
+                        </button>
+                        <button class="wishlist-btn" id="wishlistBtn">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                    </div>
+
+                    <div class="shipping-info">
+                        <div class="shipping-info-item">
+                            <i class="fas fa-truck"></i>
+                            <span>Free shipping on orders above ₹999</span>
+                        </div>
+                        <div class="shipping-info-item">
+                            <i class="fas fa-undo"></i>
+                            <span>7 days easy returns</span>
+                        </div>
+                        <div class="shipping-info-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>1 year warranty</span>
+                        </div>
+                    </div>
+
+                    <div class="social-share">
+                        <button class="social-share-btn facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </button>
+                        <button class="social-share-btn twitter">
+                            <i class="fab fa-twitter"></i>
+                        </button>
+                        <button class="social-share-btn pinterest">
+                            <i class="fab fa-pinterest-p"></i>
+                        </button>
+                        <button class="social-share-btn whatsapp">
+                            <i class="fab fa-whatsapp"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Tabs -->
+            <div class="product-tabs">
+                <div class="tab-buttons">
+                    <button class="tab-button active" data-tab="description">Description</button>
+                    <button class="tab-button" data-tab="specifications">Specifications</button>
+                    <button class="tab-button" data-tab="reviews">Reviews</button>
+                    <button class="tab-button" data-tab="shipping">Shipping & Returns</button>
+                </div>
+
+                <div class="tab-content active" id="description">
+                    <h3>Product Description</h3>
+                    <p>Our premium wireless headphones deliver exceptional sound quality and comfort. 
+                    Perfect for music lovers, gamers, and professionals who demand the best audio experience.</p>
+                    <ul>
+                        <li>Active Noise Cancellation for immersive sound</li>
+                        <li>30-hour battery life with quick charge</li>
+                        <li>Bluetooth 5.0 for stable connection</li>
+                        <li>Built-in microphone for calls</li>
+                        <li>Comfortable over-ear design</li>
+                    </ul>
+                </div>
+
+                <div class="tab-content" id="specifications">
+                    <table class="specifications-table">
+                        <tr>
+                            <th>Brand</th>
+                            <td>Premium Audio</td>
+                        </tr>
+                        <tr>
+                            <th>Model</th>
+                            <td>WH-1000XM4</td>
+                        </tr>
+                        <tr>
+                            <th>Color</th>
+                            <td>Black</td>
+                        </tr>
+                        <tr>
+                            <th>Connectivity</th>
+                            <td>Bluetooth 5.0</td>
+                        </tr>
+                        <tr>
+                            <th>Battery Life</th>
+                            <td>30 hours</td>
+                        </tr>
+                        <tr>
+                            <th>Charging Time</th>
+                            <td>3 hours</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="tab-content" id="reviews">
+                    <div class="review-card">
+                        <div class="review-header">
+                            <span class="reviewer-name">John Doe</span>
+                            <span class="review-date">March 15, 2024</span>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="review-text">
+                            Excellent sound quality and very comfortable to wear for long periods. 
+                            The noise cancellation works great in noisy environments.
+                        </p>
+                    </div>
+                    <!-- More review cards can be added here -->
+                </div>
+
+                <div class="tab-content" id="shipping">
+                    <h3>Shipping Information</h3>
+                    <p>We offer free shipping on all orders above ₹999. Standard delivery takes 3-5 business days.</p>
+                    <h3>Returns Policy</h3>
+                    <p>You can return the product within 7 days of delivery for a full refund. The product must be in its original condition with all accessories.</p>
+                </div>
+            </div>
+
+            <!-- Related Products -->
+            <div class="related-products">
+                <h2>You May Also Like</h2>
+                <div class="related-products-grid">
+                    <!-- Related products will be loaded here dynamically -->
+                </div>
+            </div>
+            </div>
+
+            <!-- Reviews Section -->
+            <div class="reviews-section">
+                <div class="reviews-header">
+                    <div class="average-rating">
+                        <div class="rating-stars" id="averageRating">
+                            <!-- Stars will be added dynamically -->
+                        </div>
+                        <div class="rating-count" id="reviewCount">0 reviews</div>
+                    </div>
+                    <button class="write-review-btn" id="writeReviewBtn">Write a Review</button>
+                </div>
+
+                <!-- Review Form -->
+                <div class="review-form" id="reviewForm">
+                    <div class="form-group">
+                        <label>Your Rating</label>
+                        <div class="rating-input" id="ratingInput">
+                            <i class="fas fa-star" data-rating="1"></i>
+                            <i class="fas fa-star" data-rating="2"></i>
+                            <i class="fas fa-star" data-rating="3"></i>
+                            <i class="fas fa-star" data-rating="4"></i>
+                            <i class="fas fa-star" data-rating="5"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Your Review</label>
+                        <textarea class="review-textarea" id="reviewText" placeholder="Share your experience with this product..."></textarea>
+                    </div>
+                    <button class="submit-review-btn" id="submitReviewBtn">Submit Review</button>
+                </div>
+
+                <!-- Reviews List -->
+                <div class="reviews-list" id="reviewsList">
+                    <!-- Reviews will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Footer (same as FA shop.html) -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Customer Service</h4>
+                    <ul>
+                        <li><a href="#contact">Contact Us</a></li>
+                        <li><a href="#shipping">Shipping Info</a></li>
+                        <li><a href="#returns">Returns</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>About Us</h4>
+                    <ul>
+                        <li><a href="#about">Our Story</a></li>
+                        <li><a href="#careers">Careers</a></li>
+                        <li><a href="#privacy">Privacy Policy</a></li>
+                        <li><a href="#terms">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 FA Shop. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Get product ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id');
+
+        // Load product details
+        function loadProductDetails() {
+            // For testing, let's create a sample product if none exists
+            let products = JSON.parse(localStorage.getItem('products')) || [];
+            
+            if (products.length === 0) {
+                // Add a sample product if no products exist
+                products = [{
+                    id: '1',
+                    name: 'Premium Wireless Headphones',
+                    price: 4999,
+                    setOff: 40,
+                    image: 'https://via.placeholder.com/600',
+                    description: 'Experience crystal-clear sound with our premium wireless headphones. Featuring active noise cancellation, 30-hour battery life, and comfortable over-ear design for extended listening sessions.',
+                    features: [
+                        'Active Noise Cancellation',
+                        '30 Hours Battery Life',
+                        'Bluetooth 5.0',
+                        'Built-in Microphone'
+                    ]
+                }];
+                localStorage.setItem('products', JSON.stringify(products));
+            }
+
+            const product = products.find(p => p.id === productId) || products[0];
+            
+            // Update product details in the DOM
+            document.querySelector('.product-title').textContent = product.name;
+            
+            // Update price
+            const priceContainer = document.querySelector('.product-price-container');
+            if (product.setOff && product.setOff > 0) {
+                const discounted = Math.round(product.price * (1 - product.setOff / 100));
+                priceContainer.innerHTML = `
+                    <span class="current-price">₹${discounted}</span>
+                    <span class="original-price">₹${product.price}</span>
+                    <span class="discount-badge">${product.setOff}% OFF</span>
+                `;
+            } else {
+                priceContainer.innerHTML = `<span class="current-price">₹${product.price}</span>`;
+            }
+
+            // Update product image
+            const mainImage = document.querySelector('.main-image');
+            mainImage.src = product.image;
+            mainImage.alt = product.name;
+
+            // Update thumbnails
+            const thumbnailContainer = document.querySelector('.thumbnail-container');
+            thumbnailContainer.innerHTML = `
+                <img src="${product.image}" alt="Thumbnail 1" class="thumbnail active">
+                <img src="${product.image}" alt="Thumbnail 2" class="thumbnail">
+                <img src="${product.image}" alt="Thumbnail 3" class="thumbnail">
+                <img src="${product.image}" alt="Thumbnail 4" class="thumbnail">
+            `;
+
+            // Update description
+            document.querySelector('.product-description').textContent = product.description;
+
+            // Update features
+            const featuresContainer = document.querySelector('.product-features');
+            if (product.features) {
+                featuresContainer.innerHTML = product.features.map(feature => `
+                    <div class="feature-item">
+                        <i class="fas fa-check"></i>
+                        <span>${feature}</span>
+                    </div>
+                `).join('');
+            }
+
+            // Update specifications
+            const specificationsTable = document.querySelector('.specifications-table');
+            if (specificationsTable) {
+                specificationsTable.innerHTML = `
+                    <tr>
+                        <th>Brand</th>
+                        <td>Premium Audio</td>
+                    </tr>
+                    <tr>
+                        <th>Model</th>
+                        <td>WH-1000XM4</td>
+                    </tr>
+                    <tr>
+                        <th>Color</th>
+                        <td>Black</td>
+                    </tr>
+                    <tr>
+                        <th>Connectivity</th>
+                        <td>Bluetooth 5.0</td>
+                    </tr>
+                    <tr>
+                        <th>Battery Life</th>
+                        <td>30 hours</td>
+                    </tr>
+                    <tr>
+                        <th>Charging Time</th>
+                        <td>3 hours</td>
+                    </tr>
+                `;
+            }
+        }
+
+        // Reviews functionality
+        let currentRating = 0;
+        const ratingInput = document.getElementById('ratingInput');
+        const stars = ratingInput.querySelectorAll('i');
+
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                const rating = parseInt(star.dataset.rating);
+                currentRating = rating;
+                stars.forEach((s, index) => {
+                    s.classList.toggle('active', index < rating);
+                });
+            });
+        });
+
+        // Load reviews
+        function loadReviews() {
+            const reviews = JSON.parse(localStorage.getItem(`reviews_${productId}`)) || [];
+            const reviewsList = document.getElementById('reviewsList');
+            const averageRating = document.getElementById('averageRating');
+            const reviewCount = document.getElementById('reviewCount');
+
+            // Calculate average rating
+            const avgRating = reviews.length > 0 
+                ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length 
+                : 0;
+
+            // Update average rating display
+            averageRating.innerHTML = '';
+            for (let i = 1; i <= 5; i++) {
+                const star = document.createElement('i');
+                star.className = `fas fa-star${i <= avgRating ? ' active' : ''}`;
+                averageRating.appendChild(star);
+            }
+
+            // Update review count
+            reviewCount.textContent = `${reviews.length} review${reviews.length !== 1 ? 's' : ''}`;
+
+            // Display reviews
+            if (reviews.length === 0) {
+                reviewsList.innerHTML = '<div class="no-reviews">No reviews yet. Be the first to review this product!</div>';
+                return;
+            }
+
+            reviewsList.innerHTML = reviews.map(review => `
+                <div class="review-item">
+                    <div class="review-header">
+                        <div class="reviewer-name">${review.userName}</div>
+                        <div class="review-date">${new Date(review.date).toLocaleDateString()}</div>
+                    </div>
+                    <div class="review-rating">
+                        ${Array(review.rating).fill('<i class="fas fa-star"></i>').join('')}
+                    </div>
+                    <div class="review-text">${review.text}</div>
+                </div>
+            `).join('');
+        }
+
+        // Submit review
+        document.getElementById('submitReviewBtn').addEventListener('click', () => {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            if (!isLoggedIn) {
+                alert('Please login to submit a review');
+                window.location.href = 'loading.html';
+                return;
+            }
+
+            const reviewText = document.getElementById('reviewText').value.trim();
+            if (currentRating === 0) {
+                alert('Please select a rating');
+                return;
+            }
+            if (!reviewText) {
+                alert('Please write a review');
+                return;
+            }
+
+            const userName = localStorage.getItem('userName');
+            const reviews = JSON.parse(localStorage.getItem(`reviews_${productId}`)) || [];
+            
+            reviews.push({
+                userName,
+                rating: currentRating,
+                text: reviewText,
+                date: new Date().toISOString()
+            });
+
+            localStorage.setItem(`reviews_${productId}`, JSON.stringify(reviews));
+            
+            // Reset form
+            document.getElementById('reviewForm').classList.remove('active');
+            document.getElementById('reviewText').value = '';
+            stars.forEach(star => star.classList.remove('active'));
+            currentRating = 0;
+            
+            // Reload reviews
+            loadReviews();
+        });
+
+        // Toggle review form
+        document.getElementById('writeReviewBtn').addEventListener('click', () => {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            if (!isLoggedIn) {
+                alert('Please login to write a review');
+                window.location.href = 'loading.html';
+                return;
+            }
+            document.getElementById('reviewForm').classList.toggle('active');
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProductDetails();
+            loadReviews();
+            checkLoginStatus();
+            updateCartCount();
+        });
+
+        // Add to cart function
+        function addToCart(productId, productName, productPrice) {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            if (!isLoggedIn) {
+                alert('Please login to add items to your cart');
+                window.location.href = 'loading.html';
+                return;
+            }
+
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: productId,
+                    name: productName,
+                    price: productPrice,
+                    quantity: 1
+                });
+            }
+            
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            
+            // Show added to cart animation
+            const addToCartBtn = document.querySelector('.add-to-cart-btn');
+            addToCartBtn.textContent = 'Added to Cart!';
+            addToCartBtn.style.background = 'var(--success-color)';
+            setTimeout(() => {
+                addToCartBtn.textContent = 'Add to Cart';
+                addToCartBtn.style.background = 'var(--primary-color)';
+            }, 2000);
+        }
+
+        // Update cart count
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartCount').textContent = totalItems;
+        }
+
+        // Check login status
+        function checkLoginStatus() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            if (!isLoggedIn) {
+                document.getElementById('writeReviewBtn').style.display = 'none';
+            }
+        }
+
+        // Image Gallery and Zoom Functionality
+        const mainImage = document.getElementById('mainImage');
+        const thumbnails = document.querySelectorAll('.thumbnail');
+        const zoomLens = document.getElementById('zoomLens');
+        const zoomResult = document.getElementById('zoomResult');
+
+        // Thumbnail click handler
+        thumbnails.forEach(thumb => {
+            thumb.addEventListener('click', function() {
+                // Update main image
+                mainImage.src = this.src;
+                
+                // Update active thumbnail
+                thumbnails.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Zoom functionality
+        mainImage.addEventListener('mousemove', function(e) {
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            // Calculate lens position
+            const lensX = x - zoomLens.offsetWidth / 2;
+            const lensY = y - zoomLens.offsetHeight / 2;
+
+            // Keep lens within image bounds
+            const maxX = rect.width - zoomLens.offsetWidth;
+            const maxY = rect.height - zoomLens.offsetHeight;
+
+            zoomLens.style.left = Math.min(Math.max(0, lensX), maxX) + 'px';
+            zoomLens.style.top = Math.min(Math.max(0, lensY), maxY) + 'px';
+
+            // Calculate zoom result position
+            const resultX = (x / rect.width) * (this.naturalWidth - zoomResult.offsetWidth);
+            const resultY = (y / rect.height) * (this.naturalHeight - zoomResult.offsetHeight);
+
+            zoomResult.style.backgroundImage = `url('${this.src}')`;
+            zoomResult.style.backgroundPosition = `-${resultX}px -${resultY}px`;
+        });
+
+        mainImage.addEventListener('mouseenter', function() {
+            zoomLens.style.display = 'block';
+            zoomResult.style.display = 'block';
+        });
+
+        mainImage.addEventListener('mouseleave', function() {
+            zoomLens.style.display = 'none';
+            zoomResult.style.display = 'none';
+        });
+
+        // Quantity Selector
+        const decreaseBtn = document.getElementById('decreaseQuantity');
+        const increaseBtn = document.getElementById('increaseQuantity');
+        const quantityInput = document.getElementById('quantityInput');
+
+        decreaseBtn.addEventListener('click', () => {
+            let value = parseInt(quantityInput.value);
+            if (value > 1) {
+                quantityInput.value = value - 1;
+            }
+        });
+
+        increaseBtn.addEventListener('click', () => {
+            let value = parseInt(quantityInput.value);
+            if (value < 10) {
+                quantityInput.value = value + 1;
+            }
+        });
+
+        // Tab Switching
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const tabId = button.dataset.tab;
+                
+                // Update active tab button
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                // Update active tab content
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                    if (content.id === tabId) {
+                        content.classList.add('active');
+                    }
+                });
+            });
+        });
+
+        // Wishlist Toggle
+        const wishlistBtn = document.getElementById('wishlistBtn');
+        wishlistBtn.addEventListener('click', () => {
+            wishlistBtn.classList.toggle('active');
+        });
+
+        // Add to Cart Animation
+        const addToCartBtn = document.getElementById('addToCartBtn');
+        addToCartBtn.addEventListener('click', () => {
+            addToCartBtn.innerHTML = '<i class="fas fa-check"></i> Added to Cart';
+            setTimeout(() => {
+                addToCartBtn.innerHTML = '<i class="fas fa-shopping-cart"></i> Add to Cart';
+            }, 2000);
+        });
+
+        // Buy Now button click handler
+        document.getElementById('buyNowBtn').addEventListener('click', () => {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            if (!isLoggedIn) {
+                alert('Please login to proceed with purchase');
+                window.location.href = 'loading.html';
+                return;
+            }
+
+            // Add the current product to cart
+            const quantity = parseInt(document.getElementById('quantityInput').value);
+            const product = {
+                id: productId,
+                name: document.querySelector('.product-title').textContent,
+                price: parseFloat(document.querySelector('.current-price').textContent.replace('₹', '')),
+                quantity: quantity
+            };
+
+            // Save the product to cart
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.push(product);
+            localStorage.setItem('cart', JSON.stringify(cart));
+
+            // Redirect to payment page
+            window.location.href = 'payment.html';
+        });
+
+        // Social Share Buttons
+        const socialShareBtns = document.querySelectorAll('.social-share-btn');
+        socialShareBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    btn.style.transform = 'scale(1)';
+                }, 200);
+            });
+        });
+    </script>
+</body>
+</html> 

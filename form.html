@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - FA Shop</title>
+    <link rel="stylesheet" href="form.css">
+</head>
+<body>
+    <div class="container">
+        <div class="login-form">
+            <div class="form-switcher" style="display:flex;justify-content:center;margin-bottom:20px;">
+                <button id="showLogin" class="switch-btn" style="flex:1;padding:10px;border:none;background:#007bff;color:#fff;cursor:pointer;border-radius:4px 0 0 4px;">Login</button>
+                <button id="showSignup" class="switch-btn" style="flex:1;padding:10px;border:none;background:#e0e0e0;color:#333;cursor:pointer;border-radius:0 4px 4px 0;">Sign Up</button>
+            </div>
+            <div id="loginSection">
+                <h2>Login to FA Shop</h2>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="submit-btn">Login</button>
+                </form>
+            </div>
+            <div id="signupSection" style="display:none;">
+                <h2>Sign Up for FA Shop</h2>
+                <form id="signupForm">
+                    <div class="form-group">
+                        <label for="signupUsername">Username</label>
+                        <input type="text" id="signupUsername" name="signupUsername" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupPassword">Password</label>
+                        <input type="password" id="signupPassword" name="signupPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupConfirmPassword">Confirm Password</label>
+                        <input type="password" id="signupConfirmPassword" name="signupConfirmPassword" required>
+                    </div>
+                    <button type="submit" class="submit-btn">Sign Up</button>
+                </form>
+                <div id="signupMessage" style="color:red;margin-top:10px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switcher logic
+        const showLoginBtn = document.getElementById('showLogin');
+        const showSignupBtn = document.getElementById('showSignup');
+        const loginSection = document.getElementById('loginSection');
+        const signupSection = document.getElementById('signupSection');
+
+        showLoginBtn.addEventListener('click', function() {
+            loginSection.style.display = 'block';
+            signupSection.style.display = 'none';
+            showLoginBtn.style.background = '#007bff';
+            showLoginBtn.style.color = '#fff';
+            showSignupBtn.style.background = '#e0e0e0';
+            showSignupBtn.style.color = '#333';
+        });
+        showSignupBtn.addEventListener('click', function() {
+            loginSection.style.display = 'none';
+            signupSection.style.display = 'block';
+            showSignupBtn.style.background = '#007bff';
+            showSignupBtn.style.color = '#fff';
+            showLoginBtn.style.background = '#e0e0e0';
+            showLoginBtn.style.color = '#333';
+        });
+
+        // Sign up logic
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('signupUsername').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+            const messageDiv = document.getElementById('signupMessage');
+
+            if (password !== confirmPassword) {
+                messageDiv.textContent = 'Passwords do not match!';
+                return;
+            }
+            // Check if user already exists
+            let users = JSON.parse(localStorage.getItem('users') || '{}');
+            if (users[username]) {
+                messageDiv.textContent = 'Username already exists!';
+                return;
+            }
+            // Save new user
+            users[username] = { password };
+            localStorage.setItem('users', JSON.stringify(users));
+            messageDiv.style.color = 'green';
+            messageDiv.textContent = 'Sign up successful! You can now log in.';
+            setTimeout(() => {
+                showLoginBtn.click();
+                messageDiv.textContent = '';
+                messageDiv.style.color = 'red';
+            }, 1500);
+        });
+
+        // Login logic
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            let users = JSON.parse(localStorage.getItem('users') || '{}');
+            if (!users[username] || users[username].password !== password) {
+                alert('Invalid username or password!');
+                return;
+            }
+            // Store login information
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('userName', username);
+            // Load user's previous cart if it exists
+            const userCart = localStorage.getItem(`cart_${username}`);
+            if (userCart) {
+                localStorage.setItem('cart', userCart);
+            } else {
+                localStorage.setItem('cart', JSON.stringify([]));
+            }
+            window.location.href = 'Index.html';
+        });
+
+        cartIcon.addEventListener('click', function() {
+            window.location.href = 'cart.html';
+        });
+
+        document.querySelector('.search-bar button').addEventListener('click', function() {
+            const searchValue = document.querySelector('.search-bar input').value.trim();
+            if (searchValue) {
+                alert('You searched for: ' + searchValue);
+                // Here you can implement product filtering logic
+            } else {
+                alert('Please enter a search term.');
+            }
+        });
+    </script>
+</body>
+</html>

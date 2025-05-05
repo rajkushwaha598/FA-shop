@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Information - FA Shop</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #FF9900;
+            --primary-dark: #E88A00;
+            --secondary-color: #f8f9fa;
+            --text-color: #111;
+            --text-light: #666;
+            --border-color: #ddd;
+            --success-color: #28a745;
+            --error-color: #dc3545;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #fff;
+            font-family: Arial, sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .form-container {
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 20px;
+            background: #fff;
+        }
+
+        .form-header {
+            margin-bottom: 20px;
+        }
+
+        .form-header h1 {
+            font-size: 28px;
+            font-weight: 400;
+            margin-bottom: 10px;
+        }
+
+        .form-header p {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 700;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 7px;
+            border: 1px solid var(--border-color);
+            border-radius: 3px;
+            font-size: 13px;
+            transition: var(--transition);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255, 153, 0, 0.1);
+        }
+
+        .business-hours {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .business-hours-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .business-hours-item input[type="time"] {
+            width: auto;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 8px;
+            border: none;
+            border-radius: 3px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: #000;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .error-message {
+            color: var(--error-color);
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .success-message {
+            color: var(--success-color);
+            font-size: 14px;
+            margin-top: 10px;
+            text-align: center;
+            display: none;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                margin: 20px;
+                padding: 10px;
+            }
+
+            .business-hours {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <div class="form-header">
+                <h1>Shop Information</h1>
+                <p>Please provide your shop details to complete your account setup.</p>
+            </div>
+            <form id="shopInfoForm">
+                <div class="form-group">
+                    <label for="shopName">Shop Name</label>
+                    <input type="text" id="shopName" required>
+                </div>
+                <div class="form-group">
+                    <label for="shopAddress">Shop Address</label>
+                    <textarea id="shopAddress" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="shopPhone">Phone Number</label>
+                    <input type="tel" id="shopPhone" required>
+                </div>
+                <div class="form-group">
+                    <label for="shopWebsite">Website (Optional)</label>
+                    <input type="url" id="shopWebsite">
+                </div>
+                <div class="form-group">
+                    <label for="shopDescription">Shop Description</label>
+                    <textarea id="shopDescription" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Business Hours</label>
+                    <div class="business-hours">
+                        <div class="business-hours-item">
+                            <input type="checkbox" id="monday" checked>
+                            <label for="monday">Monday</label>
+                            <input type="time" id="mondayOpen" value="09:00">
+                            <span>to</span>
+                            <input type="time" id="mondayClose" value="18:00">
+                        </div>
+                        <div class="business-hours-item">
+                            <input type="checkbox" id="tuesday" checked>
+                            <label for="tuesday">Tuesday</label>
+                            <input type="time" id="tuesdayOpen" value="09:00">
+                            <span>to</span>
+                            <input type="time" id="tuesdayClose" value="18:00">
+                        </div>
+                        <div class="business-hours-item">
+                            <input type="checkbox" id="wednesday" checked>
+                            <label for="wednesday">Wednesday</label>
+                            <input type="time" id="wednesdayOpen" value="09:00">
+                            <span>to</span>
+                            <input type="time" id="wednesdayClose" value="18:00">
+                        </div>
+                        <div class="business-hours-item">
+                            <input type="checkbox" id="thursday" checked>
+                            <label for="thursday">Thursday</label>
+                            <input type="time" id="thursdayOpen" value="09:00">
+                            <span>to</span>
+                            <input type="time" id="thursdayClose" value="18:00">
+                        </div>
+                        <div class="business-hours-item">
+                            <input type="checkbox" id="friday" checked>
+                            <label for="friday">Friday</label>
+                            <input type="time" id="fridayOpen" value="09:00">
+                            <span>to</span>
+                            <input type="time" id="fridayClose" value="18:00">
+                        </div>
+                        <div class="business-hours-item">
+                            <input type="checkbox" id="saturday" checked>
+                            <label for="saturday">Saturday</label>
+                            <input type="time" id="saturdayOpen" value="09:00">
+                            <span>to</span>
+                            <input type="time" id="saturdayClose" value="18:00">
+                        </div>
+                        <div class="business-hours-item">
+                            <input type="checkbox" id="sunday" checked>
+                            <label for="sunday">Sunday</label>
+                            <input type="time" id="sundayOpen" value="09:00">
+                            <span>to</span>
+                            <input type="time" id="sundayClose" value="18:00">
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Save Shop Information</button>
+                <div class="success-message" id="successMessage">
+                    Shop information saved successfully! Redirecting to login page...
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('shopInfoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Collect shop information
+            const shopInfo = {
+                name: document.getElementById('shopName').value.trim(),
+                address: document.getElementById('shopAddress').value.trim(),
+                phone: document.getElementById('shopPhone').value.trim(),
+                website: document.getElementById('shopWebsite').value.trim(),
+                description: document.getElementById('shopDescription').value.trim(),
+                businessHours: {
+                    monday: {
+                        open: document.getElementById('monday').checked ? document.getElementById('mondayOpen').value : null,
+                        close: document.getElementById('monday').checked ? document.getElementById('mondayClose').value : null
+                    },
+                    tuesday: {
+                        open: document.getElementById('tuesday').checked ? document.getElementById('tuesdayOpen').value : null,
+                        close: document.getElementById('tuesday').checked ? document.getElementById('tuesdayClose').value : null
+                    },
+                    wednesday: {
+                        open: document.getElementById('wednesday').checked ? document.getElementById('wednesdayOpen').value : null,
+                        close: document.getElementById('wednesday').checked ? document.getElementById('wednesdayClose').value : null
+                    },
+                    thursday: {
+                        open: document.getElementById('thursday').checked ? document.getElementById('thursdayOpen').value : null,
+                        close: document.getElementById('thursday').checked ? document.getElementById('thursdayClose').value : null
+                    },
+                    friday: {
+                        open: document.getElementById('friday').checked ? document.getElementById('fridayOpen').value : null,
+                        close: document.getElementById('friday').checked ? document.getElementById('fridayClose').value : null
+                    },
+                    saturday: {
+                        open: document.getElementById('saturday').checked ? document.getElementById('saturdayOpen').value : null,
+                        close: document.getElementById('saturday').checked ? document.getElementById('saturdayClose').value : null
+                    },
+                    sunday: {
+                        open: document.getElementById('sunday').checked ? document.getElementById('sundayOpen').value : null,
+                        close: document.getElementById('sunday').checked ? document.getElementById('sundayClose').value : null
+                    }
+                }
+            };
+
+            // Store shop information
+            localStorage.setItem('shopInfo', JSON.stringify(shopInfo));
+            
+            // Show success message
+            document.getElementById('successMessage').textContent = 'Shop information saved successfully! Redirecting to login page...';
+            document.getElementById('successMessage').style.display = 'block';
+            
+            // Redirect to login page after 2 seconds
+            setTimeout(() => {
+                window.location.href = 'seller-login.html';
+            }, 2000);
+        });
+    </script>
+</body>
+</html> 
